@@ -1,8 +1,6 @@
 package com.benahmed.gestiondestock.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -13,6 +11,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "lignevente")
 public class LigneVente extends AbstractEntity {
@@ -21,4 +20,5 @@ public class LigneVente extends AbstractEntity {
     private Ventes vente;
 
     private BigDecimal qunatite;
+    private BigDecimal prixUnitaire;
 }

@@ -1,21 +1,22 @@
 package com.benahmed.gestiondestock.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "mvtstock")
 public class MvtStk extends AbstractEntity{
     @ManyToOne
     @JoinColumn(name = "idarticle")
     private Article article;
+    private Instant dateMvt;
+    private BigDecimal quantite;
+
 }

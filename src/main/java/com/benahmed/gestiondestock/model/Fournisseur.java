@@ -1,8 +1,6 @@
 package com.benahmed.gestiondestock.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +8,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table
 public class Fournisseur extends AbstractEntity{
@@ -24,7 +23,5 @@ public class Fournisseur extends AbstractEntity{
     private String phoneNumber;
     @OneToMany(mappedBy = "fournisseur")
     private List<CommandeFournisseur> commandeFournisseurs;
-    @ManyToOne
-    @JoinColumn(name = "idcommandefournisseur")
-    private CommandeFournisseur commandeFournisseur;
+
 }
