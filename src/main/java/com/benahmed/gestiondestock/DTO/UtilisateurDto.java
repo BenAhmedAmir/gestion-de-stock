@@ -38,5 +38,21 @@ public class UtilisateurDto {
                 .build();
 
     }
+    public static Utilisateur toEntity(UtilisateurDto utilisateurDto){
+        if(utilisateurDto == null){
+            // TODO throw an exception
+        }
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setId(utilisateurDto.getId());
+        utilisateur.setName(utilisateurDto.getName());
+        utilisateur.setFamilyName(utilisateurDto.getFamilyName());
+        utilisateur.setEmail(utilisateur.getEmail());
+        utilisateur.setPassword(utilisateurDto.getPassword());
+        utilisateur.setAdresse(AdresseDto.toEntity(utilisateurDto.getAdresse()));
+        utilisateur.setDateDeNaissance(utilisateurDto.getDateDeNaissance());
+        utilisateur.setPhoto(utilisateurDto.getPhoto());
+        utilisateur.setEntreprise(EntrepriseDto.toEntity(utilisateurDto.getEntreprise()));
+        return utilisateur;
+    }
 
 }

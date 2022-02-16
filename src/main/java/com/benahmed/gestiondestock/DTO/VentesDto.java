@@ -6,15 +6,33 @@ import lombok.Data;
 
 import java.time.Instant;
 @Data
+@Builder
 public class VentesDto {
     private Integer id;
     private String code;
     private String commenatire;
     private Instant dateVente;
     public static VentesDto fromEntity(Ventes ventes){
-
+    if(ventes==null){
+        // TODO throw an exception
+        return null;
+    }
+    return VentesDto.builder()
+            .id(ventes.getId())
+            .code(ventes.getCode())
+            .commenatire(ventes.getCommenatire())
+            .dateVente(ventes.getDateVente())
+            .build();
     }
     public static Ventes toEntity(VentesDto ventesDto){
-
+        if(ventesDto==null){
+            // TODO throw an exception
+        }
+        Ventes ventes = new Ventes();
+        ventes.setId(ventesDto.getId());
+        ventes.setCode(ventesDto.getCode());
+        ventes.setCommenatire(ventesDto.getCommenatire());
+        ventes.setDateVente(ventesDto.getDateVente());
+        return ventes;
     }
 }
