@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Builder
 @Data
@@ -25,6 +26,10 @@ public class CategoryDto {
                 .id(category.getId())
                 .code(category.getCode())
                 .designation(category.getDesignation())
+                .articles(category.getArticles() != null ?
+                        category.getArticles().stream()
+                                .map(ArticleDto::fromEntity)
+                                .collect(Collectors.toList()) : null)
                 //la methode build va construire un obj de type categoryDTO
                 .build();
     }
@@ -39,6 +44,11 @@ public class CategoryDto {
         category.setId(categoryDto.getId());
         category.setCode(categoryDto.getCode());
         category.setDesignation(categoryDto.getDesignation());
+        category.setArticles(categoryDto.getArticles() != null ?
+                categoryDto.getArticles().stream()
+                .map(ArticleDto::toEntity)
+                        .collect(Collectors.toList()) : null);
+
         return category;
     }
 }

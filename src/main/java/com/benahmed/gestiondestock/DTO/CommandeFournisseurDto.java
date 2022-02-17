@@ -6,6 +6,8 @@ import lombok.Data;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Builder
 @Data
 public class CommandeFournisseurDto {
@@ -26,6 +28,10 @@ public class CommandeFournisseurDto {
                 .code(commandeFournisseur.getCode())
                 .dateCommande(commandeFournisseur.getDateCommande())
                 .fournisseur(FournisseurDto.fromEntity(commandeFournisseur.getFournisseur()))
+                .ligneCommandeFournisseurs(commandeFournisseur.getLigneCommandeFournisseurs() != null ?
+                        commandeFournisseur.getLigneCommandeFournisseurs().stream()
+                                .map(LigneCommandeFournisseurDto::fromEntity)
+                                .collect(Collectors.toList()) : null)
                 .build();
     }
     public static CommandeFournisseur toEntity(CommandeFournisseurDto commandeFournisseurDto){
@@ -38,6 +44,10 @@ public class CommandeFournisseurDto {
         commandeFournisseur.setCode(commandeFournisseurDto.getCode());
         commandeFournisseur.setDateCommande(commandeFournisseurDto.getDateCommande());
         commandeFournisseur.setFournisseur(FournisseurDto.toEntity(commandeFournisseurDto.getFournisseur()));
+        commandeFournisseur.setLigneCommandeFournisseurs(commandeFournisseurDto.getLigneCommandeFournisseurs() != null ?
+                commandeFournisseurDto.getLigneCommandeFournisseurs().stream()
+                        .map(LigneCommandeFournisseurDto::toEntity)
+                        .collect(Collectors.toList()) : null);
         return commandeFournisseur;
     }
 }

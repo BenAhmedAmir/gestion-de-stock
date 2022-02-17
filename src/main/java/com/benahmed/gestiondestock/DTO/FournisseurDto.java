@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Builder
 @Data
 public class FournisseurDto {
@@ -30,6 +32,10 @@ public class FournisseurDto {
                 .adresse(AdresseDto.fromEntity(fournisseur.getAdresse()))
                 .mail(fournisseur.getMail())
                 .phoneNumber(fournisseur.getPhoneNumber())
+                .commandeFournisseurs(fournisseur.getCommandeFournisseurs() != null ?
+                        fournisseur.getCommandeFournisseurs().stream()
+                                .map(CommandeFournisseurDto::fromEntity)
+                                .collect(Collectors.toList()) : null)
                 .build();
     }
     public static Fournisseur toEntity(FournisseurDto fournisseurDto){
@@ -45,6 +51,10 @@ public class FournisseurDto {
         fournisseur.setAdresse(AdresseDto.toEntity(fournisseurDto.getAdresse()));
         fournisseur.setMail(fournisseurDto.getMail());
         fournisseur.setPhoneNumber(fournisseurDto.getPhoneNumber());
+        fournisseur.setCommandeFournisseurs(fournisseurDto.getCommandeFournisseurs() != null ?
+                fournisseurDto.getCommandeFournisseurs().stream()
+                        .map(CommandeFournisseurDto::toEntity)
+                        .collect(Collectors.toList()) : null);
         return fournisseur;
     }
 }

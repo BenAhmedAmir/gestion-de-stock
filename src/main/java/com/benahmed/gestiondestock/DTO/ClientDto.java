@@ -5,6 +5,8 @@ import lombok.Data;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Data
 @Builder
 public class ClientDto {
@@ -30,7 +32,9 @@ public class ClientDto {
                 .adresse(AdresseDto.fromEntity(client.getAdresse()))
                 .mail(client.getMail())
                 .phoneNumber(client.getPhoneNumber())
-               // .commandeClients(CommandeClientDto.)
+                .commandeClients(client.getCommandeClients() !=null ?
+                        client.getCommandeClients().stream().map(CommandeClientDto::fromEntity)
+                                .collect(Collectors.toList()) : null)
                 .build();
     }
     public static Client toEntity(ClientDto clientDto){
@@ -46,6 +50,9 @@ public class ClientDto {
         client.setAdresse(AdresseDto.toEntity(clientDto.getAdresse()));
         client.setMail(clientDto.getMail());
         client.setPhoneNumber(clientDto.getPhoneNumber());
+        client.setCommandeClients(clientDto.getCommandeClients() != null ?
+                clientDto.getCommandeClients().stream().map(CommandeClientDto::toEntity)
+                        .collect(Collectors.toList()) : null);
         return client;
     }
 }

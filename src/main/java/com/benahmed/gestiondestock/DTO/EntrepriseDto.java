@@ -4,6 +4,7 @@ import com.benahmed.gestiondestock.model.Entreprise;
 import lombok.Builder;
 import lombok.Data;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Builder
 @Data
@@ -34,6 +35,10 @@ public class EntrepriseDto {
                 .email(entreprise.getEmail())
                 .phoneNumber(entreprise.getPhoneNumber())
                 .url(entreprise.getUrl())
+                .utilisateurs(entreprise.getUtilisateurs() != null ?
+                        entreprise.getUtilisateurs().stream()
+                                .map(UtilisateurDto::fromEntity).
+                                collect(Collectors.toList()) : null)
                 .build();
     }
     public static Entreprise toEntity(EntrepriseDto entrepriseDto){
@@ -51,6 +56,10 @@ public class EntrepriseDto {
         entreprise.setEmail(entrepriseDto.getEmail());
         entreprise.setPhoneNumber(entrepriseDto.getPhoneNumber());
         entreprise.setUrl(entrepriseDto.getUrl());
+        entreprise.setUtilisateurs(entrepriseDto.getUtilisateurs() != null ?
+                entrepriseDto.getUtilisateurs().stream()
+                        .map(UtilisateurDto::toEntity)
+                        .collect(Collectors.toList()): null);
         return entreprise;
     }
 }
