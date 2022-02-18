@@ -2,10 +2,7 @@ package com.benahmed.gestiondestock.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Data
@@ -21,4 +18,6 @@ public class LigneVente extends AbstractEntity {
 
     private BigDecimal qunatite;
     private BigDecimal prixUnitaire;
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
 }

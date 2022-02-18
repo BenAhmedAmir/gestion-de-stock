@@ -2,6 +2,7 @@ package com.benahmed.gestiondestock.model;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.Instant;
@@ -16,4 +17,6 @@ public class Ventes extends AbstractEntity{
     private String code;
     private String commenatire;
     private Instant dateVente;
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
 }

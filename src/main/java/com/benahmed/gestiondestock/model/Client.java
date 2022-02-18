@@ -21,6 +21,8 @@ public class Client extends AbstractEntity{
     private String mail;
     @Column(name = "phonenumber")
     private String phoneNumber;
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
     @OneToMany(mappedBy = "client")
     private List<CommandeClient> commandeClients;
 

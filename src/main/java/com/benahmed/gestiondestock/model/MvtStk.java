@@ -18,5 +18,6 @@ public class MvtStk extends AbstractEntity{
     private Article article;
     private Instant dateMvt;
     private BigDecimal quantite;
-
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
 }

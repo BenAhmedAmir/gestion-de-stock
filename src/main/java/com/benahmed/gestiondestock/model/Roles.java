@@ -2,10 +2,7 @@ package com.benahmed.gestiondestock.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
@@ -18,4 +15,6 @@ public class Roles extends AbstractEntity{
     @ManyToOne
     @JoinColumn(name = "idutilisateur")
     private Utilisateur utilisateur;
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
 }
