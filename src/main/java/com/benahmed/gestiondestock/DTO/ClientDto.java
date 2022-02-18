@@ -20,7 +20,7 @@ public class ClientDto {
     private String phoneNumber;
     private List<CommandeClientDto> commandeClients;
 
-    public ClientDto fromEntity(Client client){
+    public static ClientDto fromEntity(Client client){
         if(client == null){
             return null;
         }
