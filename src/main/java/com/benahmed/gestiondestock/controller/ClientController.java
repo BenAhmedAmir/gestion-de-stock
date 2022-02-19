@@ -4,9 +4,10 @@ import com.benahmed.gestiondestock.DTO.ClientDto;
 import com.benahmed.gestiondestock.controller.api.ClientApi;
 import com.benahmed.gestiondestock.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+@RestController
 public class ClientController implements ClientApi {
 
     private ClientService clientService;

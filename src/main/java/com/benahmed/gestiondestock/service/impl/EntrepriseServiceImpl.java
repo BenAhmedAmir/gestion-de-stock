@@ -31,7 +31,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
     public EntrepriseDto save(EntrepriseDto dto) {
         List<String> errors = EntrepriseValidator.validate(dto);
         if(!errors.isEmpty()){
-            log.error("l'entreprise est invalide {}", errors);
+            log.error("l'entreprise est invalide {}", dto);
             throw new InvalidEntityException("l'entreprise est invalide ", ErrorCodes.ENTREPRISE_NOT_VALID,
                     errors);
         }
@@ -56,7 +56,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
     @Override
     public EntrepriseDto findByCodeFiscal(String code) {
         if(!StringUtils.hasLength(code)){
-            log.error("le code est invalid");
+            log.error("le code est null");
             return null;
         }
         Optional<Entreprise> entreprise = entrepriseRepository.findByCodeFiscal(code);
