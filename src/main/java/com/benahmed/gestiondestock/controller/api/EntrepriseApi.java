@@ -22,6 +22,6 @@ public interface EntrepriseApi {
     @GetMapping(value = APP_ROOT + "/entreprises/all", produces = MediaType.APPLICATION_JSON_VALUE)
     List<EntrepriseDto> findAll();
 
-    @DeleteMapping(APP_ROOT + "/entreprise/{idEntreprise")
+    @DeleteMapping(APP_ROOT + "/entreprise/{idEntreprise}")
     void delete(@PathVariable("idEntreprise") Integer id);
 }

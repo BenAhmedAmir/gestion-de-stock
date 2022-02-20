@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class CategoryDto {
     private Integer id;
 
-    private String code;
+    private String categoryCode;
 
     private String designation;
     private List<ArticleDto> articles;
@@ -24,7 +24,7 @@ public class CategoryDto {
         // mapping Category vers CategoryDTO
         return CategoryDto.builder()
                 .id(category.getId())
-                .code(category.getCode())
+                .categoryCode(category.getCategoryCode())
                 .designation(category.getDesignation())
                 .articles(category.getArticles() != null ?
                         category.getArticles().stream()
@@ -42,7 +42,7 @@ public class CategoryDto {
         // instance
         Category category = new Category();
         category.setId(categoryDto.getId());
-        category.setCode(categoryDto.getCode());
+        category.setCategoryCode(categoryDto.getCategoryCode());
         category.setDesignation(categoryDto.getDesignation());
         category.setArticles(categoryDto.getArticles() != null ?
                 categoryDto.getArticles().stream()

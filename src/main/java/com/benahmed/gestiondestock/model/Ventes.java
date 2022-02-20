@@ -1,6 +1,9 @@
 package com.benahmed.gestiondestock.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +17,7 @@ import java.time.Instant;
 @Entity
 @Table
 public class Ventes extends AbstractEntity{
-    private String code;
+    private String venteCode;
     private String commenatire;
     private Instant dateVente;
     @Column(name = "identreprise")

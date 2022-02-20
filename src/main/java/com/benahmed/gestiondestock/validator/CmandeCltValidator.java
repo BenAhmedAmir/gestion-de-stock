@@ -1,6 +1,5 @@
 package com.benahmed.gestiondestock.validator;
 
-import com.benahmed.gestiondestock.DTO.ClientDto;
 import com.benahmed.gestiondestock.DTO.CommandeClientDto;
 import org.springframework.util.StringUtils;
 

@@ -1,6 +1,9 @@
 package com.benahmed.gestiondestock.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +19,7 @@ import java.util.List;
 @Table
 public class Category extends AbstractEntity{
     @Column
-    private String code;
+    private String categoryCode;
     @Column
     private String designation;
     @Column(name = "identreprise")

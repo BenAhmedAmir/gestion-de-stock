@@ -3,6 +3,7 @@ package com.benahmed.gestiondestock.DTO;
 import com.benahmed.gestiondestock.model.Article;
 import lombok.Builder;
 import lombok.Data;
+
 import java.math.BigDecimal;
 
 @Builder

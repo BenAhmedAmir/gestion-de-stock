@@ -50,12 +50,12 @@ public class VentesServiceImpl implements VentesService {
     }
 
     @Override
-    public VentesDto findByCodeVente(String code) {
+    public VentesDto findByVenteCode(String code) {
         if(!StringUtils.hasLength(code)){
             log.error("le code vente est null");
             return null;
         }
-        Optional<Ventes> ventes = ventesRepository.findByCodeVente(code);
+        Optional<Ventes> ventes = ventesRepository.findByVenteCode(code);
         return Optional.of(VentesDto.fromEntity(ventes.get())).orElseThrow(()->
                 new EntityNotFoundException("Aucun vente avec le code = " +code+ " est trouvée dans la base",
                         ErrorCodes.VENTE_NOT_FOUND));

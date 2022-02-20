@@ -14,7 +14,7 @@ public interface CategoryApi {
     CategoryDto findById(@PathVariable("idCategory") Integer id);
 
     @GetMapping(value = APP_ROOT + "/categories/{codeCategory}", produces = MediaType.APPLICATION_JSON_VALUE)
-    CategoryDto findByCodeCategory(@PathVariable("codeCategory") String code);
+    CategoryDto findByCategoryCode(@PathVariable("codeCategory") String code);
 
     @GetMapping(value = APP_ROOT + "/categories/all", produces = MediaType.APPLICATION_JSON_VALUE)
     List<CategoryDto> findAll();

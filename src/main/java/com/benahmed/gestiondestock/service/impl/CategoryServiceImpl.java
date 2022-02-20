@@ -54,12 +54,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto findByCodeCategory(String code) {
+    public CategoryDto findByCategoryCode(String code) {
         if(!StringUtils.hasLength(code)){
             log.error("le catégorie code est null");
             return null;
         }
-        Optional<Category> category = categoryRepository.findByCodeCategory(code);
+        Optional<Category> category = categoryRepository.findByCategoryCode(code);
         return Optional.of(CategoryDto.fromEntity(category.get())).orElseThrow(()->
                 new EntityNotFoundException(
                         "Aucun categorie avec le code = "+ code +" est trouvé dans la base",

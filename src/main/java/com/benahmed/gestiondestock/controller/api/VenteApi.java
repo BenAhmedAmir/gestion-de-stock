@@ -16,7 +16,7 @@ public interface VenteApi {
     VentesDto findById(@PathVariable("idVente") Integer id);
 
     @GetMapping(value = APP_ROOT + "/ventes/{codeVente}",produces = MediaType.APPLICATION_JSON_VALUE)
-    VentesDto findByCodeVente(@PathVariable("codeVente") String code);
+    VentesDto findByVenteCode(@PathVariable("codeVente") String code);
 
     @GetMapping(value = APP_ROOT + "/ventes/all", produces = MediaType.APPLICATION_JSON_VALUE)
     List<VentesDto> findAll();

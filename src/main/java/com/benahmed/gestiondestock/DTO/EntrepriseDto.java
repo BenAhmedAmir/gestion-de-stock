@@ -3,6 +3,7 @@ package com.benahmed.gestiondestock.DTO;
 import com.benahmed.gestiondestock.model.Entreprise;
 import lombok.Builder;
 import lombok.Data;
+
 import java.util.List;
 import java.util.stream.Collectors;
 

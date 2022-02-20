@@ -59,7 +59,7 @@ public class FournisseurServiceImpl implements FournisseurService {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void deleteById(Integer id) {
         if(id == null){
             log.error("l'id est null");
             return;

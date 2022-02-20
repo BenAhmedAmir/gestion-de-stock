@@ -7,7 +7,7 @@ import java.util.List;
 public interface CategoryService {
     CategoryDto save(CategoryDto dto);
     CategoryDto findById(Integer id);
-    CategoryDto findByCodeCategory(String code);
+    CategoryDto findByCategoryCode(String code);
     List<CategoryDto> findAll();
     void delete(Integer id);
 }

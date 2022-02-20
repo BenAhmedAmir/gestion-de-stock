@@ -15,7 +15,7 @@ public class VentesValidator {
             errors.add("Veuillez reseigner la date de vente");
             return errors;
         }
-        if(!StringUtils.hasLength(dto.getCode())){
+        if(!StringUtils.hasLength(dto.getVenteCode())){
             errors.add("Veuillez reseigner le code de vente");
         }
         if(dto.getDateVente() == null){

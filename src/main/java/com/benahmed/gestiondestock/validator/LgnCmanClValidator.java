@@ -1,6 +1,5 @@
 package com.benahmed.gestiondestock.validator;
 
-import com.benahmed.gestiondestock.DTO.CommandeClientDto;
 import com.benahmed.gestiondestock.DTO.LigneCommandeClientDto;
 
 import java.util.ArrayList;

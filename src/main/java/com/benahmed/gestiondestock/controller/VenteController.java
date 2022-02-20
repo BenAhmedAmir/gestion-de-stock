@@ -27,8 +27,8 @@ public class VenteController implements VenteApi {
     }
 
     @Override
-    public VentesDto findByCodeVente(String code) {
-        return ventesService.findByCodeVente(code);
+    public VentesDto findByVenteCode(String code) {
+        return ventesService.findByVenteCode(code);
     }
 
     @Override

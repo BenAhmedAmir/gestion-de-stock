@@ -9,7 +9,7 @@ import java.time.Instant;
 @Builder
 public class VentesDto {
     private Integer id;
-    private String code;
+    private String venteCode;
     private String commenatire;
     private Instant dateVente;
     public static VentesDto fromEntity(Ventes ventes){
@@ -19,7 +19,7 @@ public class VentesDto {
     }
     return VentesDto.builder()
             .id(ventes.getId())
-            .code(ventes.getCode())
+            .venteCode(ventes.getVenteCode())
             .commenatire(ventes.getCommenatire())
             .dateVente(ventes.getDateVente())
             .build();
@@ -30,7 +30,7 @@ public class VentesDto {
         }
         Ventes ventes = new Ventes();
         ventes.setId(ventesDto.getId());
-        ventes.setCode(ventesDto.getCode());
+        ventes.setVenteCode(ventesDto.getVenteCode());
         ventes.setCommenatire(ventesDto.getCommenatire());
         ventes.setDateVente(ventesDto.getDateVente());
         return ventes;

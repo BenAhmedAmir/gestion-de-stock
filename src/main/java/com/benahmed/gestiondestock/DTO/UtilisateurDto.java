@@ -1,9 +1,9 @@
 package com.benahmed.gestiondestock.DTO;
 
 import com.benahmed.gestiondestock.model.Utilisateur;
-import com.benahmed.gestiondestock.model.Ventes;
 import lombok.Builder;
 import lombok.Data;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;

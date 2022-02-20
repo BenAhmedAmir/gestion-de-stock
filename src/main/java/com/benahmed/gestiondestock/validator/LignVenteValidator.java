@@ -5,7 +5,7 @@ import com.benahmed.gestiondestock.DTO.LigneVenteDto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class lignVenteValidator {
+public class LignVenteValidator {
     public static List<String> validate(LigneVenteDto dto) {
         List<String> errors = new ArrayList<>();
         if(dto == null){
