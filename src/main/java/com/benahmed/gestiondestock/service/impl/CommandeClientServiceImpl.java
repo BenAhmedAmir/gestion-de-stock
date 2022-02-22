@@ -67,7 +67,7 @@ public class CommandeClientServiceImpl implements CommandeClientService {
                         articleErrors.add("l'article avec l'id "+ lignCmdClt.getArticle().getId() + "n'existe pas");
                     }
                 }else {
-                    articleErrors.add("l'article avec l'id "+ lignCmdClt.getArticle().getId() + "n'existe pas");
+                    articleErrors.add("impossible d'entregistrer une commande avec un article NULL");
                 }
             });
         }

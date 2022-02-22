@@ -1,10 +1,13 @@
 package com.benahmed.gestiondestock.DTO;
 
+import com.benahmed.gestiondestock.model.LigneVente;
 import com.benahmed.gestiondestock.model.Ventes;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.List;
+
 @Data
 @Builder
 public class VentesDto {
@@ -12,6 +15,7 @@ public class VentesDto {
     private String venteCode;
     private String commenatire;
     private Instant dateVente;
+    private List<LigneVenteDto> ligneVentes;
     public static VentesDto fromEntity(Ventes ventes){
     if(ventes==null){
         // TODO throw an exception

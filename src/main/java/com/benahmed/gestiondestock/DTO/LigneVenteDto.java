@@ -1,9 +1,12 @@
 package com.benahmed.gestiondestock.DTO;
 
+import com.benahmed.gestiondestock.model.Article;
 import com.benahmed.gestiondestock.model.LigneVente;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 @Data
 @Builder
@@ -12,7 +15,7 @@ public class LigneVenteDto {
     private VentesDto vente;
     private BigDecimal qunatite;
     private BigDecimal prixUnitaire;
-
+    private ArticleDto article;
     public static LigneVenteDto fromEntity(LigneVente ligneVente){
         if(ligneVente == null){
             // TODO throw an exception
