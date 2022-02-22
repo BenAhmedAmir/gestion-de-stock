@@ -1,6 +1,7 @@
 package com.benahmed.gestiondestock.service.impl;
 
 import com.benahmed.gestiondestock.DTO.CategoryDto;
+import com.benahmed.gestiondestock.DTO.ClientDto;
 import com.benahmed.gestiondestock.exception.EntityNotFoundException;
 import com.benahmed.gestiondestock.exception.ErrorCodes;
 import com.benahmed.gestiondestock.exception.InvalidEntityException;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,13 +45,14 @@ public class CategoryServiceImpl implements CategoryService {
             log.error("l'id est null");
             return null;
         }
-        Optional<Category> category = categoryRepository.findById(id);
-        return Optional.of(CategoryDto.fromEntity(category.get())).orElseThrow(()->
-                new EntityNotFoundException(
-                        "Aucun categorie avec l'id = "+ id +" est trouvé dans la base",
+        return categoryRepository.findById(id)
+                .map(CategoryDto::fromEntity)
+                .orElseThrow(()-> new EntityNotFoundException(
+                        "Aucun category est trouvé avec l'id = " + id + "dans la base",
                         ErrorCodes.CATEGORY_NOT_FOUND
                 ));
     }
+
 
     @Override
     public CategoryDto findByCategoryCode(String code) {
@@ -59,13 +60,14 @@ public class CategoryServiceImpl implements CategoryService {
             log.error("le catégorie code est null");
             return null;
         }
-        Optional<Category> category = categoryRepository.findByCategoryCode(code);
-        return Optional.of(CategoryDto.fromEntity(category.get())).orElseThrow(()->
-                new EntityNotFoundException(
-                        "Aucun categorie avec le code = "+ code +" est trouvé dans la base",
+        return categoryRepository.findByCategoryCode(code)
+                .map(CategoryDto::fromEntity)
+                .orElseThrow(()-> new EntityNotFoundException(
+                        "Aucun category est trouvé avec le code = " + code + "dans la base",
                         ErrorCodes.CATEGORY_NOT_FOUND
                 ));
     }
+
 
     @Override
     public List<CategoryDto> findAll() {

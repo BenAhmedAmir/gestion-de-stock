@@ -1,5 +1,6 @@
 package com.benahmed.gestiondestock.service.impl;
 
+import com.benahmed.gestiondestock.DTO.FournisseurDto;
 import com.benahmed.gestiondestock.DTO.UtilisateurDto;
 import com.benahmed.gestiondestock.exception.EntityNotFoundException;
 import com.benahmed.gestiondestock.exception.ErrorCodes;
@@ -44,10 +45,12 @@ public class UtilisateurServiceImpl implements UtilisateurService {
             log.error("l'id est null");
             return null;
         }
-        Optional<Utilisateur> utilisateur = utilisateurRepository.findById(id);
-        return Optional.of(UtilisateurDto.fromEntity(utilisateur.get())).orElseThrow(()->
-                new EntityNotFoundException("Aucun utilisateur avec l'id = "+ id + " est trouve dans la base",
-                        ErrorCodes.UTILISATEUR_NOT_FOUND));
+        return utilisateurRepository.findById(id)
+                .map(UtilisateurDto::fromEntity)
+                .orElseThrow(()-> new EntityNotFoundException(
+                        "Aucun utilisateur est trouvé avec le code = " + id + "dans la base",
+                        ErrorCodes.UTILISATEUR_NOT_FOUND
+                ));
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.benahmed.gestiondestock.service.impl;
 
+import com.benahmed.gestiondestock.DTO.FournisseurDto;
 import com.benahmed.gestiondestock.DTO.MvtStkDto;
+import com.benahmed.gestiondestock.exception.EntityNotFoundException;
 import com.benahmed.gestiondestock.exception.ErrorCodes;
 import com.benahmed.gestiondestock.exception.InvalidEntityException;
 import com.benahmed.gestiondestock.model.MvtStk;
@@ -42,10 +44,10 @@ public class MvtStkServiceImpl implements MvtStkService {
             log.error("l'id est null");
             return null;
         }
-        Optional<MvtStk> mvtStk = mvtStkRepository.findById(id);
-        return Optional.of(MvtStkDto.fromEntity(mvtStk.get())).orElseThrow(()->
-                new InvalidEntityException(
-                        "Aucun mouvement de stock avec l'id = " + id + "est trouvé dans la base",
+        return mvtStkRepository.findById(id)
+                .map(MvtStkDto::fromEntity)
+                .orElseThrow(()-> new EntityNotFoundException(
+                        "Aucun mouvement de stock est trouvé avec le code = " + id + "dans la base",
                         ErrorCodes.MVT_STK_NOT_FOUND
                 ));
     }

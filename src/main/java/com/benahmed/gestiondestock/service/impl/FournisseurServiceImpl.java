@@ -1,6 +1,8 @@
 package com.benahmed.gestiondestock.service.impl;
 
+import com.benahmed.gestiondestock.DTO.ArticleDto;
 import com.benahmed.gestiondestock.DTO.FournisseurDto;
+import com.benahmed.gestiondestock.exception.EntityNotFoundException;
 import com.benahmed.gestiondestock.exception.ErrorCodes;
 import com.benahmed.gestiondestock.exception.InvalidEntityException;
 import com.benahmed.gestiondestock.model.Fournisseur;
@@ -43,12 +45,12 @@ public class FournisseurServiceImpl implements FournisseurService {
             log.error("l'id est null");
             return null;
         }
-        Optional<Fournisseur> fournisseur = fournisseurRepository.findById(id);
-        return Optional.of(FournisseurDto.fromEntity(fournisseur.get())).orElseThrow(()->
-                new InvalidEntityException(
-                "Aucun fournisseur avec l'id = "+id+" est trouve dans la base",
-                ErrorCodes.FOURNISSEUR_NOT_FOUND
-        ));
+        return fournisseurRepository.findById(id)
+                .map(FournisseurDto::fromEntity)
+                .orElseThrow(()-> new EntityNotFoundException(
+                        "Aucun fournisseur est trouvé avec le code = " + id + "dans la base",
+                        ErrorCodes.FOURNISSEUR_NOT_FOUND
+                ));
     }
 
     @Override

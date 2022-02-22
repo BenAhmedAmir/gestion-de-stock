@@ -1,5 +1,6 @@
 package com.benahmed.gestiondestock.service.impl;
 
+import com.benahmed.gestiondestock.DTO.ArticleDto;
 import com.benahmed.gestiondestock.DTO.EntrepriseDto;
 import com.benahmed.gestiondestock.exception.EntityNotFoundException;
 import com.benahmed.gestiondestock.exception.ErrorCodes;
@@ -45,10 +46,10 @@ public class EntrepriseServiceImpl implements EntrepriseService {
             log.error("l'id est invalid");
             return null;
         }
-        Optional<Entreprise> entreprise = entrepriseRepository.findById(id);
-        return Optional.of(EntrepriseDto.fromEntity(entreprise.get())).orElseThrow(()->
-                new EntityNotFoundException(
-                        "Aucun entreprise avec l'id = " + id + "est trouvé dans la base",
+        return entrepriseRepository.findById(id)
+                .map(EntrepriseDto::fromEntity)
+                .orElseThrow(()-> new EntityNotFoundException(
+                        "Aucun entreprise est trouvé avec l'id = " + id + "dans la base",
                         ErrorCodes.ENTREPRISE_NOT_FOUND
                 ));
     }
@@ -59,10 +60,10 @@ public class EntrepriseServiceImpl implements EntrepriseService {
             log.error("le code est null");
             return null;
         }
-        Optional<Entreprise> entreprise = entrepriseRepository.findByCodeFiscal(code);
-        return Optional.of(EntrepriseDto.fromEntity(entreprise.get())).orElseThrow(()->
-                new EntityNotFoundException(
-                        "Aucun entreprise avec le code = " + code + "est trouvé dans la base",
+        return entrepriseRepository.findByCodeFiscal(code)
+                .map(EntrepriseDto::fromEntity)
+                .orElseThrow(()-> new EntityNotFoundException(
+                        "Aucun entreprise est trouvé avec le code = " + code + "dans la base",
                         ErrorCodes.ENTREPRISE_NOT_FOUND
                 ));
     }

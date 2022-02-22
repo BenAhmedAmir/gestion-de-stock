@@ -45,10 +45,10 @@ public class ClientServiceImpl implements ClientService {
             log.error("l'id est null");
             return null;
         }
-        Optional<Client> client = clientRepository.findById(id);
-        return Optional.of(ClientDto.fromEntity(client.get())).orElseThrow(()->
-                new EntityNotFoundException(
-                        "Aucun client avec l'id = "+id+" est trouve dans la base",
+        return clientRepository.findById(id)
+                .map(ClientDto::fromEntity)
+                .orElseThrow(()-> new EntityNotFoundException(
+                        "Aucun client est trouvé avec l'id = " + id + "dans la base",
                         ErrorCodes.CLIENT_NOT_FOUND
                 ));
     }

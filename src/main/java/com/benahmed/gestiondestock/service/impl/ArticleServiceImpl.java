@@ -1,6 +1,7 @@
 package com.benahmed.gestiondestock.service.impl;
 
 import com.benahmed.gestiondestock.DTO.ArticleDto;
+import com.benahmed.gestiondestock.DTO.ClientDto;
 import com.benahmed.gestiondestock.exception.EntityNotFoundException;
 import com.benahmed.gestiondestock.exception.ErrorCodes;
 import com.benahmed.gestiondestock.exception.InvalidEntityException;
@@ -46,10 +47,10 @@ public class ArticleServiceImpl implements ArticleService {
             log.error("id est null");
             return null;
         }
-        Optional<Article> article = articleRepository.findById(id);
-        return Optional.of(ArticleDto.fromEntity(article.get())).orElseThrow(() ->
-                new EntityNotFoundException(
-                        "Aucun article avec l'id = " + id + "est trouvé dans la base",
+        return articleRepository.findById(id)
+                .map(ArticleDto::fromEntity)
+                .orElseThrow(()-> new EntityNotFoundException(
+                        "Aucun article est trouvé avec l'id = " + id + "dans la base",
                         ErrorCodes.ARTICLE_NOT_FOUND
                 ));
     }
@@ -60,13 +61,14 @@ public class ArticleServiceImpl implements ArticleService {
             log.error("Article code est null");
             return null;
         }
-        Optional<Article> article = articleRepository.findByCodeArticle(codeArticle);
-        return Optional.of(ArticleDto.fromEntity(article.get())).orElseThrow(() ->
-                new EntityNotFoundException(
-                        "Aucun article avec le code = " + codeArticle + "est trouvé dans la base",
+        return articleRepository.findByCodeArticle(codeArticle)
+                .map(ArticleDto::fromEntity)
+                .orElseThrow(()-> new EntityNotFoundException(
+                        "Aucun article est trouvé avec le code = " + codeArticle + "dans la base",
                         ErrorCodes.ARTICLE_NOT_FOUND
                 ));
     }
+
 
     @Override
     public List<ArticleDto> findAll() {

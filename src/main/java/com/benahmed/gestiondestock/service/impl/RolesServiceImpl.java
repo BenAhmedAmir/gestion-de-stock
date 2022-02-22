@@ -1,5 +1,6 @@
 package com.benahmed.gestiondestock.service.impl;
 
+import com.benahmed.gestiondestock.DTO.FournisseurDto;
 import com.benahmed.gestiondestock.DTO.RolesDto;
 import com.benahmed.gestiondestock.exception.EntityNotFoundException;
 import com.benahmed.gestiondestock.exception.ErrorCodes;
@@ -44,10 +45,10 @@ public class RolesServiceImpl implements RolesService {
             log.error("l'id est null");
             return null;
         }
-        Optional<Roles> roles = rolesRepository.findById(id);
-        return Optional.of(RolesDto.fromEntity(roles.get())).orElseThrow(()->
-                new EntityNotFoundException(
-                        "Aucun role avec l'id = "+ id+ " est trouvé dans la base",
+        return rolesRepository.findById(id)
+                    .map(RolesDto::fromEntity)
+                .orElseThrow(()-> new EntityNotFoundException(
+                        "Aucun role est trouvé avec le code = " + id + "dans la base",
                         ErrorCodes.ROLES_NOT_FOUND
                 ));
     }
