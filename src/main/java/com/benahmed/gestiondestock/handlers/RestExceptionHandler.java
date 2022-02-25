@@ -21,6 +21,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
         return new ResponseEntity<>(errorDto, notFound);
     }
+    @ExceptionHandler(InvalidEntityException.class)
     public ResponseEntity<ErrorDto> invalidException(InvalidEntityException exception, WebRequest webRequest){
         final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
         final ErrorDto errorDto =  ErrorDto.builder()
