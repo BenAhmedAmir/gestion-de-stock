@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 
 
 @Data
@@ -25,6 +24,8 @@ public class Article extends AbstractEntity{
     private BigDecimal tauxTva;
     private BigDecimal prixUnitaireTtc;
     private String photo;
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
     @ManyToOne()
     @JoinColumn(name = "idcategory")
     private Category category;
