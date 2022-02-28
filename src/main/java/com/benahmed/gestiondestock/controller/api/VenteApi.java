@@ -13,7 +13,7 @@ import java.util.List;
 import static com.benahmed.gestiondestock.utilis.constants.APP_ROOT;
 @Api(APP_ROOT + "/ventes")
 public interface VenteApi {
-    @PostMapping(value = APP_ROOT +"/ventes/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = APP_ROOT +"/ventes/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Enregister une vente ", notes = "cette method permet d'ajouter ou modifier une vente",
             response = VentesDto.class)
     @ApiResponses(value = {
@@ -41,7 +41,7 @@ public interface VenteApi {
     })
     VentesDto findByVenteCode(@PathVariable("codeVente") String code);
 
-    @GetMapping(value = APP_ROOT + "/ventes/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT + "/ventes/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "renvoi la liste de tous les ventes",  notes = "cette methode permet de trouver la liste" +
             "des ventes qui existent dans la base",
             responseContainer = "List<VentesDto>")
@@ -51,8 +51,7 @@ public interface VenteApi {
     List<VentesDto> findAll();
 
     @DeleteMapping(APP_ROOT + "ventes/{idVente}")
-    @ApiOperation(value = "supprimer une vente ",  notes = "cette methode permet de supprimer une vente par son ID",
-            response = VentesDto.class)
+    @ApiOperation(value = "supprimer une vente ",  notes = "cette methode permet de supprimer une vente par son ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "la vente a ete supprimer")
     })

@@ -13,7 +13,7 @@ import java.util.List;
 import static com.benahmed.gestiondestock.utilis.constants.APP_ROOT;
 @Api(APP_ROOT + "/roles")
 public interface RolesApi {
-    @PostMapping(value = APP_ROOT+ "/roles/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = APP_ROOT+ "/roles/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Enregister un role ", notes = "cette method permet d'ajouter ou modifier un role",
             response = RolesDto.class)
     @ApiResponses(value = {
@@ -31,7 +31,7 @@ public interface RolesApi {
     })
     RolesDto findById(@PathVariable("idRole") Integer id);
 
-    @GetMapping(value = APP_ROOT+ "/roles/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT+ "/roles/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "renvoi la liste de tous les Roles",  notes = "cette methode permet de trouver la liste" +
             "des Roles qui existent dans la base",
             responseContainer = "List<RolesDto>")
@@ -41,8 +41,7 @@ public interface RolesApi {
     List<RolesDto> findAll();
 
     @DeleteMapping(APP_ROOT + "/roles/{idRole}")
-    @ApiOperation(value = "supprimer un role ",  notes = "cette methode permet de supprimer un role par son ID",
-            response = RolesDto.class)
+    @ApiOperation(value = "supprimer un role ",  notes = "cette methode permet de supprimer un role par son ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "le role a ete supprimer")
     })

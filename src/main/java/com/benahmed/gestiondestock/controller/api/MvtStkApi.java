@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.benahmed.gestiondestock.utilis.constants.APP_ROOT;
-@Api(APP_ROOT + "/mouvementstock")
+@Api(APP_ROOT + "/mouvementstocks")
 public interface MvtStkApi {
-    @PostMapping(value = APP_ROOT+ "/mvtstok/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = APP_ROOT+ "/mouvementstocks/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Enregister un mouvement de stock ", notes = "cette method permet d'ajouter ou modifier un mouvement de stock",
             response = MvtStkDto.class)
     @ApiResponses(value = {
@@ -21,7 +21,7 @@ public interface MvtStkApi {
     })
     MvtStkDto save(@RequestBody MvtStkDto dto);
 
-    @GetMapping(value = APP_ROOT+ "/mvtstock/{idMvtstk}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT+ "/mouvementstocks/{idMvtstk}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "rechercher un mouvement de stock par ID",  notes = "cette methode permet de trouver un mouvement de stock par " +
             "son ID",
             response = MvtStkDto.class)
@@ -31,7 +31,7 @@ public interface MvtStkApi {
     })
     MvtStkDto findById(@PathVariable("idMvtstk") Integer id);
 
-    @GetMapping(value = APP_ROOT+ "/mvtstock/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT+ "/mouvementstocks/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "renvoi la liste de tous les mouvements de stock",  notes = "cette methode permet de trouver la liste" +
             "des articles qui existent dans la base",
             responseContainer = "List<MvtStkDto>")
@@ -40,9 +40,8 @@ public interface MvtStkApi {
     })
     List<MvtStkDto> findAll();
 
-    @DeleteMapping(APP_ROOT + "/mvtstock/{idMvtstk}")
-    @ApiOperation(value = "supprimer un mouvement de stock ",  notes = "cette methode permet de supprimer un mouvement de stock par son ID",
-            response = MvtStkDto.class)
+    @DeleteMapping(APP_ROOT + "/mouvementstocks/{idMvtstk}")
+    @ApiOperation(value = "supprimer un mouvement de stock ",  notes = "cette methode permet de supprimer un mouvement de stock par son ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "le mouvement de stock a ete supprimer")
     })

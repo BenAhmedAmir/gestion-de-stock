@@ -13,7 +13,7 @@ import java.util.List;
 import static com.benahmed.gestiondestock.utilis.constants.APP_ROOT;
 @Api(APP_ROOT + "/utilisateurs")
 public interface UtilisateurApi {
-    @PostMapping(value = APP_ROOT +"/utilisateurs/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = APP_ROOT +"/utilisateurs/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Enregister un utilisateur ", notes = "cette method permet d'ajouter ou modifier un utilisateur",
             response = UtilisateurDto.class)
     @ApiResponses(value = {
@@ -31,7 +31,7 @@ public interface UtilisateurApi {
     })
     UtilisateurDto findById(@PathVariable("idUtilisateur") Integer id);
 
-    @GetMapping(value = APP_ROOT + "/utilisateurs/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT + "/utilisateurs/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "renvoi la liste de tous les utilisateurs",  notes = "cette methode permet de trouver la liste" +
             "des articles qui existent dans la base",
             responseContainer = "List<UtilisateurDto>")
@@ -41,8 +41,7 @@ public interface UtilisateurApi {
     List<UtilisateurDto> findAll();
 
     @DeleteMapping(APP_ROOT + "utilisateurs/{idUtilisateur}")
-    @ApiOperation(value = "supprimer un utilisateur ",  notes = "cette methode permet de supprimer un utilisateur par son ID",
-            response = UtilisateurDto.class)
+    @ApiOperation(value = "supprimer un utilisateur ",  notes = "cette methode permet de supprimer un utilisateur par son ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "l'utilisateur a ete supprimer")
     })

@@ -14,7 +14,7 @@ import static com.benahmed.gestiondestock.utilis.constants.APP_ROOT;
 @Api(APP_ROOT + "/entreprises")
 public interface EntrepriseApi {
 
-    @PostMapping(value = APP_ROOT + "/entreprises/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = APP_ROOT + "/entreprises/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Enregister  une entreprise ", notes = "cette method permet d'ajouter ou modifier  une entreprise",
             response = EntrepriseDto.class)
     @ApiResponses(value = {
@@ -42,7 +42,7 @@ public interface EntrepriseApi {
     })
     EntrepriseDto findByCodeFiscal(@PathVariable("codeFiscal") String code);
 
-    @GetMapping(value = APP_ROOT + "/entreprises/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT + "/entreprises/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "renvoi la liste de tous les entreprises",  notes = "cette methode permet de trouver la liste" +
             "des entreprises qui existent dans la base",
             responseContainer = "List<EntrepriseDto>")
@@ -52,8 +52,7 @@ public interface EntrepriseApi {
     List<EntrepriseDto> findAll();
 
     @DeleteMapping(APP_ROOT + "/entreprise/{idEntreprise}")
-    @ApiOperation(value = "supprimer  une entreprise ",  notes = "cette methode permet de supprimer  une entreprise par son ID",
-            response = EntrepriseDto.class)
+    @ApiOperation(value = "supprimer  une entreprise ",  notes = "cette methode permet de supprimer  une entreprise par son ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "l'entreprise a ete supprimer")
     })

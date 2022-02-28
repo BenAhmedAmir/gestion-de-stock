@@ -13,7 +13,7 @@ import java.util.List;
 import static com.benahmed.gestiondestock.utilis.constants.APP_ROOT;
 @Api(APP_ROOT + "/clients")
 public interface ClientApi {
-    @PostMapping(value = APP_ROOT +"/clients/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = APP_ROOT +"/clients/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Enregister un client ", notes = "cette method permet d'ajouter ou modifier un article",
             response = ClientDto.class)
     @ApiResponses(value = {
@@ -31,7 +31,7 @@ public interface ClientApi {
     })
     ClientDto findById(@PathVariable("idClient") Integer id);
 
-    @GetMapping(value = APP_ROOT + "/clients/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT + "/clients/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "renvoi la liste de tous les clients",  notes = "cette methode permet de trouver la liste" +
             "des clients qui existent dans la base",
             responseContainer = "List<ClientDto>")
@@ -41,8 +41,7 @@ public interface ClientApi {
     List<ClientDto> findAll();
 
     @DeleteMapping(APP_ROOT + "clients/{idClient}")
-    @ApiOperation(value = "supprimer un article ",  notes = "cette methode permet de supprimer un article par son ID",
-            response = ClientDto.class)
+    @ApiOperation(value = "supprimer un article ",  notes = "cette methode permet de supprimer un article par son ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "le client a ete supprimer")
     })

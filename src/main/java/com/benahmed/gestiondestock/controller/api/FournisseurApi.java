@@ -16,7 +16,7 @@ import java.util.List;
 import static com.benahmed.gestiondestock.utilis.constants.APP_ROOT;
 @Api(APP_ROOT + "/fournisseurs")
 public interface FournisseurApi {
-    @PostMapping(value = APP_ROOT +"/fournisseurs/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = APP_ROOT +"/fournisseurs/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Enregister un fournisseur ", notes = "cette method permet d'ajouter ou modifier un fournisseur",
             response = FournisseurDto.class)
     @ApiResponses(value = {
@@ -34,7 +34,7 @@ public interface FournisseurApi {
     })
     FournisseurDto findById(@PathVariable("idFournisseur") Integer id);
 
-    @GetMapping(value = APP_ROOT + "/fournisseurs/all",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT + "/fournisseurs/",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "renvoi la liste de tous les fournisseurs",  notes = "cette methode permet de trouver la liste" +
             "des fournisseurs qui existent dans la base",
             responseContainer = "List<FournisseurDto>")
@@ -44,8 +44,7 @@ public interface FournisseurApi {
     List<FournisseurDto> findAll();
 
     @GetMapping(value = APP_ROOT + "/fournisseurs/delete/{idFournisseur}",produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "supprimer un fournisseur ",  notes = "cette methode permet de supprimer un fournisseur par son ID",
-            response = FournisseurDto.class)
+    @ApiOperation(value = "supprimer un fournisseur ",  notes = "cette methode permet de supprimer un fournisseur par son ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "le fournisseur a ete supprimer")
     })

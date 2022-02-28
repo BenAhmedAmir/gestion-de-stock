@@ -11,7 +11,7 @@ import java.util.List;
 import static com.benahmed.gestiondestock.utilis.constants.APP_ROOT;
 @Api(APP_ROOT + "/categories")
 public interface CategoryApi {
-    @PostMapping(value = APP_ROOT + "/categories/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = APP_ROOT + "/categories/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Enregister une categorie ", notes = "cette method permet d'ajouter ou modifier une categorie",
             response = CategoryDto.class)
     @ApiResponses(value = {
@@ -39,7 +39,7 @@ public interface CategoryApi {
     })
     CategoryDto findByCategoryCode(@PathVariable("codeCategory") String code);
 
-    @GetMapping(value = APP_ROOT + "/categories/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT + "/categories/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "renvoi la liste de tous les categories",  notes = "cette methode permet de trouver la liste" +
             "des categories qui existent dans la base",
             responseContainer = "List<CategoryDto>")
@@ -49,8 +49,7 @@ public interface CategoryApi {
     List<CategoryDto> findAll();
 
     @DeleteMapping(APP_ROOT + "/categories/{idCategory}")
-    @ApiOperation(value = "supprimer une categorie ",  notes = "cette methode permet de supprimer une categorie par son ID",
-            response = CategoryDto.class)
+    @ApiOperation(value = "supprimer une categorie ",  notes = "cette methode permet de supprimer une categorie par son ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "la categorie a ete supprimer")
     })

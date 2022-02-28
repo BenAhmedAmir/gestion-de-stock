@@ -13,7 +13,7 @@ import java.util.List;
 import static com.benahmed.gestiondestock.utilis.constants.APP_ROOT;
 @Api(APP_ROOT + "/articles")
 public interface ArticleApi {
-    @PostMapping(value = APP_ROOT + "/articles/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = APP_ROOT + "/articles/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Enregister un article ", notes = "cette method permet d'ajouter ou modifier un article",
     response = ArticleDto.class)
     @ApiResponses(value = {
@@ -41,7 +41,7 @@ public interface ArticleApi {
     })
     ArticleDto findByCodeArticle(@PathVariable("codeArticle") String codeArticle);
 
-    @GetMapping(value = APP_ROOT + "/articles/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = APP_ROOT + "/articles/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "renvoi la liste de tous les articles",  notes = "cette methode permet de trouver la liste" +
             "des articles qui existent dans la base",
             responseContainer = "List<ArticleDto>")
@@ -51,8 +51,7 @@ public interface ArticleApi {
     List<ArticleDto> findAll();
 
     @DeleteMapping(APP_ROOT + "/articles/{idArticle}")
-    @ApiOperation(value = "supprimer un article ",  notes = "cette methode permet de supprimer un article par son ID",
-            response = ArticleDto.class)
+    @ApiOperation(value = "supprimer un article ",  notes = "cette methode permet de supprimer un article par son ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "l'article a ete supprimer")
     })
