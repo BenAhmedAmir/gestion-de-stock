@@ -41,7 +41,7 @@ public interface EntrepriseApi {
             @ApiResponse(code = 404, message = "l'entreprise n'existe pas dans la base")
     })
     EntrepriseDto findByCodeFiscal(@PathVariable("codeFiscal") String code);
-
+    // cette methode est dédie seulement pour les admins par pour les entreprises
     @GetMapping(value = APP_ROOT + "/entreprises/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "renvoi la liste de tous les entreprises",  notes = "cette methode permet de trouver la liste" +
             "des entreprises qui existent dans la base",

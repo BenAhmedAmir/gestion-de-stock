@@ -6,10 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,7 +40,7 @@ public interface FournisseurApi {
     })
     List<FournisseurDto> findAll();
 
-    @GetMapping(value = APP_ROOT + "/fournisseurs/delete/{idFournisseur}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = APP_ROOT + "/fournisseurs/delete/{idFournisseur}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "supprimer un fournisseur ",  notes = "cette methode permet de supprimer un fournisseur par son ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "le fournisseur a ete supprimer")
