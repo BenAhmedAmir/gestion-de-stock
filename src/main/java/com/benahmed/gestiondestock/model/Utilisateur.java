@@ -26,7 +26,7 @@ public class Utilisateur extends AbstractEntity{
     private Instant dateDeNaissance;
     private String photo;
     @ManyToOne
-    @JoinColumn(name = "identreprsie")
+    @JoinColumn(name = "identreprise")
     private Entreprise entreprise;
     @OneToMany(mappedBy = "utilisateur")
     private List<Roles> roles;
