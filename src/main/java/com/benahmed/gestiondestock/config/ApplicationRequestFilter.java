@@ -2,6 +2,7 @@ package com.benahmed.gestiondestock.config;
 
 import com.benahmed.gestiondestock.service.auth.ApplicationUserDetailsService;
 import com.benahmed.gestiondestock.utilis.JwtUtil;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,16 +33,18 @@ public class ApplicationRequestFilter extends OncePerRequestFilter {
         // get header
         final String authHeader = request.getHeader("Authorization");
         String username = null;
+        String idEntreprise = null;
         String jwt = null;
         // verif si header existe et commence par le mot Bearer+espace
-        if(StringUtils.hasLength(authHeader) && authHeader.startsWith("Bearer ")){
+        if(authHeader != null && authHeader.startsWith("Bearer ")){
             // extraire depuis index 7
             jwt = authHeader.substring(7);
             //extraire le username a partrir de jwt
             username = jwtUtil.extractUsername(jwt);
+            idEntreprise = jwtUtil.exctractIdEntrerprise(jwt);
         }
         // si jai le user je vais le mettre dans le context
-        if(StringUtils.hasLength(username) && SecurityContextHolder.getContext().getAuthentication() == null){
+        if(username !=null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if(jwtUtil.validateToken(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
@@ -53,6 +56,8 @@ public class ApplicationRequestFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
+        // cette class MDC me permet de stocker un obj
+        MDC.put("idEntreprise", idEntreprise);
         filterChain.doFilter(request, response);
 
     }

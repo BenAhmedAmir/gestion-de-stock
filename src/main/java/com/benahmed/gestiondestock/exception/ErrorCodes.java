@@ -28,6 +28,7 @@ public enum ErrorCodes {
     ROLES_NOT_FOUND(14000),
     ROLES_NOT_VALID(14001),
     UTILISATEUR_NOT_AUTHORIZED(15000),
+    BAD_CREDENTIALS(16000),
 
     ;
     private int code;

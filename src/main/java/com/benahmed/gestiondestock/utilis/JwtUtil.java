@@ -1,5 +1,6 @@
 package com.benahmed.gestiondestock.utilis;
 
+import com.benahmed.gestiondestock.model.auth.ExtendedUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,7 +20,10 @@ public class JwtUtil {
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
-
+    public String exctractIdEntrerprise(String token){
+        final Claims claims = extractAllClaims(token);
+        return claims.get("idEntreprise", String.class);
+    }
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
@@ -37,17 +41,19 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(ExtendedUser userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        return createToken(claims, userDetails);
     }
 
-    private String createToken(Map<String, Object> claims, String subject) {
+    private String createToken(Map<String, Object> claims, ExtendedUser userDetails) {
 
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+        return Jwts.builder().setClaims(claims).setSubject(userDetails.getUsername()).setIssuedAt(new Date(System.currentTimeMillis()))
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 // stocker identreprise dans le token pour soit utiliser dans l'intercepter
-                .claim("id_entreprise", "")
+                .claim("id_entreprise", userDetails.getIdEntreprise().toString())
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 

@@ -1,29 +1,32 @@
 package com.benahmed.gestiondestock.service.auth;
 
-import com.benahmed.gestiondestock.exception.ErrorCodes;
-import com.benahmed.gestiondestock.exception.NotAuthorized;
-import com.benahmed.gestiondestock.model.Utilisateur;
-import com.benahmed.gestiondestock.repository.UtilisateurRepository;
+import com.benahmed.gestiondestock.DTO.UtilisateurDto;
+import com.benahmed.gestiondestock.model.auth.ExtendedUser;
+import com.benahmed.gestiondestock.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import java.util.Collections;
+
+import java.util.ArrayList;
+
+import java.util.List;
 
 @Service
 public class ApplicationUserDetailsService implements UserDetailsService {
     @Autowired
-    private UtilisateurRepository utilisateurRepository;
+    private UtilisateurService utilisateurService;
 
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Utilisateur utilisateur = utilisateurRepository.findUtilisateurByEmail(email).orElseThrow(()->
-                new NotAuthorized("Vous n etes pas autorise", ErrorCodes.UTILISATEUR_NOT_AUTHORIZED)
-        );
+        UtilisateurDto utilisateur = utilisateurService.findByEmail(email);
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        utilisateur.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRoleName())));
 
-        return new User(utilisateur.getEmail(), utilisateur.getPassword(), Collections.emptyList());
+        return new ExtendedUser(utilisateur.getEmail(), utilisateur.getPassword(), authorities,
+                utilisateur.getEntreprise().getId());
     }
 }

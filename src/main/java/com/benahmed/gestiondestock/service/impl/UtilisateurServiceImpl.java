@@ -1,11 +1,9 @@
 package com.benahmed.gestiondestock.service.impl;
 
-import com.benahmed.gestiondestock.DTO.FournisseurDto;
 import com.benahmed.gestiondestock.DTO.UtilisateurDto;
 import com.benahmed.gestiondestock.exception.EntityNotFoundException;
 import com.benahmed.gestiondestock.exception.ErrorCodes;
 import com.benahmed.gestiondestock.exception.InvalidEntityException;
-import com.benahmed.gestiondestock.model.Utilisateur;
 import com.benahmed.gestiondestock.repository.UtilisateurRepository;
 import com.benahmed.gestiondestock.service.UtilisateurService;
 import com.benahmed.gestiondestock.validator.UtilisateurValidator;
@@ -14,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -63,5 +60,14 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public void delete(Integer id) {
         utilisateurRepository.deleteById(id);
+    }
+
+    @Override
+    public UtilisateurDto findByEmail(String email) {
+        return utilisateurRepository.findUtilisateurByEmail(email)
+                .map(UtilisateurDto::fromEntity).orElseThrow(()->
+                        new EntityNotFoundException("Aucun utilisateur avec l'email " + email +
+                                " est trouve dans la base",  ErrorCodes.UTILISATEUR_NOT_FOUND)
+        );
     }
 }

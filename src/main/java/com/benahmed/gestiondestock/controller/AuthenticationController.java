@@ -2,6 +2,7 @@ package com.benahmed.gestiondestock.controller;
 
 import com.benahmed.gestiondestock.DTO.auth.AuthenticationRequest;
 import com.benahmed.gestiondestock.DTO.auth.AuthenticationResponse;
+import com.benahmed.gestiondestock.model.auth.ExtendedUser;
 import com.benahmed.gestiondestock.service.auth.ApplicationUserDetailsService;
 import com.benahmed.gestiondestock.utilis.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class AuthenticationController {
                 )
         );
         final UserDetails userDetails = applicationUserDetailsService.loadUserByUsername(request.getEmail());
-        final String jwt = jwtUtil.generateToken(userDetails);
+        final String jwt = jwtUtil.generateToken((ExtendedUser) userDetails);
         return ResponseEntity.ok(AuthenticationResponse.builder().jwtToken(jwt).build());
     }
 }
