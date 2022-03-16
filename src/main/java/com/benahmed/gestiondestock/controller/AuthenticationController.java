@@ -35,7 +35,9 @@ public class AuthenticationController {
                 )
         );
         final UserDetails userDetails = applicationUserDetailsService.loadUserByUsername(request.getEmail());
+
         final String jwt = jwtUtil.generateToken((ExtendedUser) userDetails);
+
         return ResponseEntity.ok(AuthenticationResponse.builder().jwtToken(jwt).build());
     }
 }

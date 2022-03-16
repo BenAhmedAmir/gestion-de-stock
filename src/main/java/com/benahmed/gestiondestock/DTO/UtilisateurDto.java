@@ -1,8 +1,10 @@
 package com.benahmed.gestiondestock.DTO;
 
 import com.benahmed.gestiondestock.model.Utilisateur;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.List;
@@ -36,9 +38,9 @@ public class UtilisateurDto {
                 .dateDeNaissance(utilisateur.getDateDeNaissance())
                 .photo(utilisateur.getPhoto())
                 .entreprise(EntrepriseDto.fromEntity(utilisateur.getEntreprise()))
-                .roles(utilisateur.getRoles() != null ?
-                        utilisateur.getRoles().stream()
-                                .map(RolesDto::fromEntity).collect(Collectors.toList()) : null)
+                .roles(utilisateur.getRoles().stream()
+                                .map(RolesDto::fromEntity)
+                        .collect(Collectors.toList()))
                 .build();
 
     }

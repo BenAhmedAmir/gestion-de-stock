@@ -32,20 +32,20 @@ public class ApplicationRequestFilter extends OncePerRequestFilter {
 
         // get header
         final String authHeader = request.getHeader("Authorization");
-        String username = null;
-        String idEntreprise = null;
+        String userEmail = null;
         String jwt = null;
+        String idEntreprise = null;
         // verif si header existe et commence par le mot Bearer+espace
-        if(authHeader != null && authHeader.startsWith("Bearer ")){
+        if(authHeader !=  null && authHeader.startsWith("Bearer ")){
             // extraire depuis index 7
             jwt = authHeader.substring(7);
-            //extraire le username a partrir de jwt
-            username = jwtUtil.extractUsername(jwt);
-            idEntreprise = jwtUtil.exctractIdEntrerprise(jwt);
+            //extraire le userEmail a partrir de jwt
+            userEmail = jwtUtil.extractUsername(jwt);
+            idEntreprise = jwtUtil.extractIdEntreprise(jwt);
         }
         // si jai le user je vais le mettre dans le context
-        if(username !=null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             if(jwtUtil.validateToken(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
@@ -56,7 +56,6 @@ public class ApplicationRequestFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
-        // cette class MDC me permet de stocker un obj
         MDC.put("idEntreprise", idEntreprise);
         filterChain.doFilter(request, response);
 

@@ -3,6 +3,7 @@ package com.benahmed.gestiondestock.handlers;
 import com.benahmed.gestiondestock.exception.EntityNotFoundException;
 import com.benahmed.gestiondestock.exception.ErrorCodes;
 import com.benahmed.gestiondestock.exception.InvalidEntityException;
+import com.benahmed.gestiondestock.exception.InvalidOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -47,5 +48,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .errors(Collections.singletonList("Login et ou mot de passe sont incorrect"))
                 .build();
         return new ResponseEntity<>(error , badRequest);
+    }
+    @ExceptionHandler(InvalidOperationException.class)
+    public ResponseEntity<ErrorDto> invalidOperationException(InvalidEntityException exception, WebRequest webRequest){
+        final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        final ErrorDto errorDto =  ErrorDto.builder()
+                .code(exception.getErrorCode())
+                .httpCode(badRequest.value())
+                .msg(exception.getMessage())
+                .errors(exception.getErrors())
+                .build();
+        return new ResponseEntity<>(errorDto, badRequest);
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 @Service
@@ -22,7 +21,8 @@ public class ApplicationUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UtilisateurDto utilisateur = utilisateurService.findByEmail(email);
+        UtilisateurDto utilisateur = utilisateurService.findUtilisateurByEmail(email);
+
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         utilisateur.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getRoleName())));
 

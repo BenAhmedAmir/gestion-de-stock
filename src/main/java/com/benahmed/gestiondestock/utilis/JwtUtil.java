@@ -15,12 +15,12 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    private String SECRET_KEY = "secret";
+    private final String SECRET_KEY = "secret";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
-    public String exctractIdEntrerprise(String token){
+    public String extractIdEntreprise(String token){
         final Claims claims = extractAllClaims(token);
         return claims.get("idEntreprise", String.class);
     }
@@ -48,12 +48,12 @@ public class JwtUtil {
 
     private String createToken(Map<String, Object> claims, ExtendedUser userDetails) {
 
-        return Jwts.builder().setClaims(claims).setSubject(userDetails.getUsername()).setIssuedAt(new Date(System.currentTimeMillis()))
+        return Jwts.builder().setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 // stocker identreprise dans le token pour soit utiliser dans l'intercepter
-                .claim("id_entreprise", userDetails.getIdEntreprise().toString())
+                .claim("idEntreprise", userDetails.getIdEntreprise().toString())
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 

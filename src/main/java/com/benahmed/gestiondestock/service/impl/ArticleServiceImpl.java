@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ArticleServiceImpl implements ArticleService {
 
-    private ArticleRepository articleRepository;
+    private final ArticleRepository articleRepository;
 
     @Autowired
     public ArticleServiceImpl(ArticleRepository articleRepository) {
@@ -61,7 +61,7 @@ public class ArticleServiceImpl implements ArticleService {
             log.error("Article code est null");
             return null;
         }
-        return articleRepository.findByCodeArticle(codeArticle)
+        return articleRepository.findArticleByCodeArticle(codeArticle)
                 .map(ArticleDto::fromEntity)
                 .orElseThrow(()-> new EntityNotFoundException(
                         "Aucun article est trouvé avec le code = " + codeArticle + "dans la base",

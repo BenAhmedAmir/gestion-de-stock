@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UtilisateurServiceImpl implements UtilisateurService {
 
-    private UtilisateurRepository utilisateurRepository;
+    private final UtilisateurRepository utilisateurRepository;
     @Autowired
     public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository) {
         this.utilisateurRepository = utilisateurRepository;
@@ -32,6 +32,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
             throw new InvalidEntityException("l'utlisateur est invalide ", ErrorCodes.UTILISATEUR_NOT_VALID,
                     errors);
         }
+
         return UtilisateurDto.fromEntity(utilisateurRepository
                 .save(UtilisateurDto.toEntity(dto)));
     }
@@ -63,11 +64,12 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
-    public UtilisateurDto findByEmail(String email) {
+    public UtilisateurDto findUtilisateurByEmail(String email) {
         return utilisateurRepository.findUtilisateurByEmail(email)
                 .map(UtilisateurDto::fromEntity).orElseThrow(()->
                         new EntityNotFoundException("Aucun utilisateur avec l'email " + email +
                                 " est trouve dans la base",  ErrorCodes.UTILISATEUR_NOT_FOUND)
         );
     }
+
 }

@@ -21,11 +21,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private ApplicationRequestFilter ApplicationRequestFilter;
     @Override
-    @Bean
-    public AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
-    }
-    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // dire a spring pour faire authentication voila mon service qui va permettre a chercher les info de user
         auth.userDetailsService(applicationUserDetailsService)
@@ -35,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests().antMatchers("/**/authenticate",
-                        "/**/entreprises/",
+                        "/**/entreprise/create/",
                         "/v2/api-docs",
                         "/swagger-resources/",
                         "/swagger-resources/**",
@@ -43,13 +38,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/configuration/security",
                         "/swagger-ui.html",
                         "/webjars/**",
-                        "/v3/api-docs/**",
-                        "/swagger-ui/**").permitAll()
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
         http.addFilterBefore(ApplicationRequestFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
     @Bean
     public PasswordEncoder passwordEncoder(){

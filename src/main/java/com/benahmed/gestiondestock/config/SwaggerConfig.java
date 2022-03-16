@@ -1,6 +1,5 @@
 package com.benahmed.gestiondestock.config;
 
-import com.benahmed.gestiondestock.utilis.constants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -17,13 +16,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.Collections;
 import java.util.List;
 
+
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-
+    final String AUTHORIZATION_HEADER = "Authorization";
     @Bean
-    public Docket swaggerApi() {
+    public Docket swaggerApi(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(
                         new ApiInfoBuilder()
@@ -39,18 +38,17 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
-
-    private ApiKey apiKey() {
+    private ApiKey apiKey(){
         return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
     }
 
-    private SecurityContext securityContext() {
-        return SecurityContext.builder().securityReferences(defaultAuth())
+    private SecurityContext securityContext(){
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
                 .build();
     }
-
     List<SecurityReference> defaultAuth(){
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverthing");
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accesEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
         return Collections.singletonList(

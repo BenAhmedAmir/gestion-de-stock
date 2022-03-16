@@ -9,6 +9,7 @@ public enum ErrorCodes {
     CLIENT_NOT_VALID(3000),
     COMMANDE_CLIENT_NOT_FOUND(4000),
     COMMANDE_CLIENT_NOT_VALID(4001),
+    COMMANDE_CLIENT_NOT_MODIFIABLE(4002),
     COMMANDE_FOURNISSEUR_NOT_FOUND(5000),
     COMMANDE_FOURNISSEUR_NOT_VALID(50001),
     ENTREPRISE_NOT_FOUND(6000),
@@ -31,7 +32,7 @@ public enum ErrorCodes {
     BAD_CREDENTIALS(16000),
 
     ;
-    private int code;
+    private final int code;
 
     ErrorCodes(int code){
         this.code = code;

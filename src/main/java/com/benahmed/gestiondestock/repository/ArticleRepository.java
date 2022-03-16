@@ -7,5 +7,5 @@ import java.util.Optional;
 
 // ref : https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods
 public interface ArticleRepository extends JpaRepository<Article,Integer> {
-    Optional<Article> findByCodeArticle(String codeArticle);
+    Optional<Article> findArticleByCodeArticle(String codeArticle);
 }
