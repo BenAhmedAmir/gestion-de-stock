@@ -27,4 +27,7 @@ public class CommandeFournisseur extends AbstractEntity{
     private List<LigneCommandeFournisseur> ligneCommandeFournisseurs;
     @Column(name = "identreprise")
     private Integer idEntreprise;
+
+    private EtatCommande etatCommande;
 }
+

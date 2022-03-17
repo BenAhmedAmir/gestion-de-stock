@@ -1,6 +1,8 @@
 package com.benahmed.gestiondestock.DTO;
 
 import com.benahmed.gestiondestock.model.CommandeFournisseur;
+import com.benahmed.gestiondestock.model.EtatCommande;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,6 +18,8 @@ public class CommandeFournisseurDto {
     private String code;
     private Instant dateCommande;
     private FournisseurDto fournisseur;
+    private EtatCommande etatCommande;
+    @JsonIgnore
     private List<LigneCommandeFournisseurDto> ligneCommandeFournisseurs;
 
     public static CommandeFournisseurDto fromEntity(CommandeFournisseur commandeFournisseur){
@@ -28,6 +32,7 @@ public class CommandeFournisseurDto {
                 .code(commandeFournisseur.getCode())
                 .dateCommande(commandeFournisseur.getDateCommande())
                 .fournisseur(FournisseurDto.fromEntity(commandeFournisseur.getFournisseur()))
+                .etatCommande(commandeFournisseur.getEtatCommande())
                 .ligneCommandeFournisseurs(commandeFournisseur.getLigneCommandeFournisseurs() != null ?
                         commandeFournisseur.getLigneCommandeFournisseurs().stream()
                                 .map(LigneCommandeFournisseurDto::fromEntity)
@@ -44,10 +49,14 @@ public class CommandeFournisseurDto {
         commandeFournisseur.setCode(commandeFournisseurDto.getCode());
         commandeFournisseur.setDateCommande(commandeFournisseurDto.getDateCommande());
         commandeFournisseur.setFournisseur(FournisseurDto.toEntity(commandeFournisseurDto.getFournisseur()));
+        commandeFournisseur.setEtatCommande(commandeFournisseur.getEtatCommande());
         commandeFournisseur.setLigneCommandeFournisseurs(commandeFournisseurDto.getLigneCommandeFournisseurs() != null ?
                 commandeFournisseurDto.getLigneCommandeFournisseurs().stream()
                         .map(LigneCommandeFournisseurDto::toEntity)
                         .collect(Collectors.toList()) : null);
         return commandeFournisseur;
+    }
+    public boolean isCommandLivree(){
+        return EtatCommande.LIVREE.equals(this.etatCommande);
     }
 }

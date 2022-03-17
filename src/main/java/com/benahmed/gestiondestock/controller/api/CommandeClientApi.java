@@ -52,7 +52,7 @@ public interface CommandeClientApi {
     ResponseEntity<CommandeClientDto> updateArticle(@PathVariable("idCommande") Integer idCommande
             ,@PathVariable("idLigneCommande") Integer idLigneCommande,@PathVariable("idArticle") Integer idArticle);
 
-    @DeleteMapping(value = APP_ROOT + "/commandesclient/update/article/{idCommande}/{idLigneCommande}",
+    @DeleteMapping(value = APP_ROOT + "/commandesclient/{idCommande}/{idLigneCommande}",
             consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "supprimer une ligne commande  ",
             notes = "cette methode permet de supprimer ligne commande  par son ID")

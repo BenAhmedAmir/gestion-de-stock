@@ -3,6 +3,7 @@ package com.benahmed.gestiondestock.DTO;
 
 import com.benahmed.gestiondestock.model.CommandeClient;
 import com.benahmed.gestiondestock.model.EtatCommande;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,6 +20,7 @@ public class CommandeClientDto {
     private Instant dateCommande;
     private ClientDto client;
     private EtatCommande etatCommande;
+    @JsonIgnore
     private List<LigneCommandeClientDto> ligneCommandeClients;
     public static CommandeClientDto fromEntity(CommandeClient commandeClient){
         if(commandeClient == null){
