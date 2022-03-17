@@ -1,6 +1,7 @@
 package com.benahmed.gestiondestock.controller;
 
 import com.benahmed.gestiondestock.DTO.CommandeClientDto;
+import com.benahmed.gestiondestock.DTO.LigneCommandeClientDto;
 import com.benahmed.gestiondestock.controller.api.CommandeClientApi;
 import com.benahmed.gestiondestock.model.EtatCommande;
 import com.benahmed.gestiondestock.service.CommandeClientService;
@@ -30,6 +31,16 @@ public class CommandeClientController implements CommandeClientApi {
     }
 
     @Override
+    public ResponseEntity<CommandeClientDto> updateArticle(Integer idCommande, Integer idLigneCommande, Integer idArticle) {
+        return ResponseEntity.ok(commandeClientService.updateArticle(idCommande,idLigneCommande,idArticle));
+    }
+
+    @Override
+    public ResponseEntity<CommandeClientDto> deleteArticle(Integer idCommande, Integer idLigneCommande) {
+        return ResponseEntity.ok(commandeClientService.deleteArticle(idCommande,idLigneCommande));
+    }
+
+    @Override
     public ResponseEntity<CommandeClientDto> updateQuantite(Integer id, Integer idLigneCommande, BigDecimal quantite) {
         return ResponseEntity.ok(commandeClientService.updateQuantite(id,idLigneCommande,quantite));
     }
@@ -37,6 +48,11 @@ public class CommandeClientController implements CommandeClientApi {
     @Override
     public ResponseEntity<CommandeClientDto> updateClient(Integer id, Integer idClient) {
         return ResponseEntity.ok(commandeClientService.updateClient(id,idClient));
+    }
+
+    @Override
+    public ResponseEntity<List<LigneCommandeClientDto>> findAllLigneCommandeClientByCommandeClient(Integer idCommande) {
+        return ResponseEntity.ok(commandeClientService.findAllLigneCommandeClientByCommandeClient(idCommande));
     }
 
     @Override

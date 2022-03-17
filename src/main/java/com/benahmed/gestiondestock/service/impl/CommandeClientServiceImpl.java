@@ -1,5 +1,6 @@
 package com.benahmed.gestiondestock.service.impl;
 
+import com.benahmed.gestiondestock.DTO.ArticleDto;
 import com.benahmed.gestiondestock.DTO.ClientDto;
 import com.benahmed.gestiondestock.DTO.CommandeClientDto;
 import com.benahmed.gestiondestock.DTO.LigneCommandeClientDto;
@@ -13,6 +14,7 @@ import com.benahmed.gestiondestock.repository.ClientRepository;
 import com.benahmed.gestiondestock.repository.CommandeClienttRepository;
 import com.benahmed.gestiondestock.repository.LigneCommandeClientRepository;
 import com.benahmed.gestiondestock.service.CommandeClientService;
+import com.benahmed.gestiondestock.validator.ArticleValidator;
 import com.benahmed.gestiondestock.validator.CmandeCltValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,22 +139,14 @@ public class CommandeClientServiceImpl implements CommandeClientService {
 
     @Override
     public CommandeClientDto updateEtatCommande(Integer idCommande, EtatCommande etatCommande) {
-        if (idCommande == null) {
-            log.error("l'id est null");
-            throw new InvalidOperationException("impossible de modifier letat de la commande avec un Id null",
-                    ErrorCodes.COMMANDE_CLIENT_NOT_MODIFIABLE);
-        }
+        checkIdCommande(idCommande);
         if (!StringUtils.hasLength(String.valueOf(etatCommande))) {
             log.error("letat commande est vide");
             throw new InvalidOperationException("impossible de modifier letat de la commande avec un etat commande" +
                     "vide",
                     ErrorCodes.COMMANDE_CLIENT_NOT_MODIFIABLE);
         }
-        CommandeClientDto commandeClientDto = findById(idCommande);
-        if(commandeClientDto.isCommandeLivree()){
-            throw  new InvalidOperationException("impossible de modifier letat de la commande lorsque elle est livre",
-                    ErrorCodes.COMMANDE_CLIENT_NOT_MODIFIABLE);
-        }
+        CommandeClientDto commandeClientDto = checkEtatCommande(idCommande);
         commandeClientDto.setEtatCommande(etatCommande);
 
         return CommandeClientDto.fromEntity(commandeClientRepository.save(
@@ -162,34 +156,17 @@ public class CommandeClientServiceImpl implements CommandeClientService {
 
     @Override
     public CommandeClientDto updateQuantite(Integer idCommande, Integer idLigneCommande, BigDecimal quantite) {
-        if (idCommande == null) {
-            log.error("l'id est null");
-            throw new InvalidOperationException("impossible de modifier la quantite de la commande avec un Id null",
-                    ErrorCodes.COMMANDE_CLIENT_NOT_MODIFIABLE);
-        }
+        checkIdCommande(idCommande);
         if (quantite == null || quantite.compareTo(BigDecimal.ZERO) == 0 ) {
             log.error("quantite null ou egal a zero");
             throw new InvalidOperationException("impossible de modifier la quantite avec quantite null ou zero",
                     ErrorCodes.COMMANDE_CLIENT_NOT_MODIFIABLE);
         }
-        if (idLigneCommande == null ) {
-            log.error("id ligne commande est null");
-            throw new InvalidOperationException("impossible de modifier la quantite de la commande avec id ligne commande",
-                    ErrorCodes.COMMANDE_CLIENT_NOT_MODIFIABLE);
-        }
-        CommandeClientDto commandeClientDto = findById(idCommande);
-        if(commandeClientDto.isCommandeLivree()){
-            throw  new InvalidOperationException("impossible de modifier letat de la commande lorsque elle est livre",
-                    ErrorCodes.COMMANDE_CLIENT_NOT_MODIFIABLE);
-        }
+        checkIdLigneCommande(idLigneCommande);
+        CommandeClientDto commandeClientDto = checkEtatCommande(idCommande);
 
 
-        Optional<LigneCommandeClient> ligneCommandeClientOptional = ligneCommandeClientRepository.findById(idLigneCommande);
-
-        if(ligneCommandeClientOptional.isEmpty()){
-            throw new InvalidEntityException("Aucun ligne commande a ete trouve dans la base avec l'id "
-                    + idLigneCommande + ErrorCodes.LIGNE_COMMANDE_CLIENT_NOT_FOUND);
-        }
+        Optional<LigneCommandeClient> ligneCommandeClientOptional = findLigneCommande(idLigneCommande);
         LigneCommandeClient ligneCommandeClient = ligneCommandeClientOptional.get();
         ligneCommandeClient.setQuantite(quantite);
         ligneCommandeClientRepository.save(ligneCommandeClient);
@@ -198,21 +175,13 @@ public class CommandeClientServiceImpl implements CommandeClientService {
 
     @Override
     public CommandeClientDto updateClient(Integer idCommande, Integer idClient) {
-        if (idCommande == null) {
-            log.error("l'id commande est null");
-            throw new InvalidOperationException("impossible de modifier le client avec un Id commande null",
-                    ErrorCodes.COMMANDE_CLIENT_NOT_MODIFIABLE);
-        }
+        checkIdCommande(idCommande);
         if (idClient == null) {
             log.error("id client null");
             throw new InvalidOperationException("impossible de modifier le client avec un Id null",
                     ErrorCodes.COMMANDE_CLIENT_NOT_MODIFIABLE);
         }
-        CommandeClientDto commandeClientDto = findById(idCommande);
-        if(commandeClientDto.isCommandeLivree()){
-            throw  new InvalidOperationException("impossible de modifier le client de la commande lorsque elle est livre",
-                    ErrorCodes.COMMANDE_CLIENT_NOT_MODIFIABLE);
-        }
+        CommandeClientDto commandeClientDto = checkEtatCommande(idCommande);
         Optional<Client> optionClient = clientRepository.findById(idClient);
         if(optionClient.isEmpty()){
             throw new EntityNotFoundException("Aucun client a ete trouve avec l'id "+ idClient ,
@@ -221,6 +190,90 @@ public class CommandeClientServiceImpl implements CommandeClientService {
         commandeClientDto.setClient(ClientDto.fromEntity(optionClient.get()));
         return CommandeClientDto.fromEntity(commandeClientRepository.save(
                 CommandeClientDto.toEntity(commandeClientDto)));
+    }
+
+    @Override
+    public CommandeClientDto updateArticle(Integer idCommande, Integer idLigneCommande,Integer idArticle) {
+        checkIdCommande(idCommande);
+        checkIdLigneCommande(idLigneCommande);
+        checkIdArticle(idArticle);
+
+        CommandeClientDto commandeClientDto = checkEtatCommande(idCommande);
+
+        Optional<LigneCommandeClient> ligneCommandeClient = findLigneCommande(idLigneCommande);
+        Optional<Article> article = articleRepository.findById(idArticle);
+        if(article.isEmpty()){
+            throw new InvalidEntityException("Aucun artile a ete trouve dans la base avec l'id "
+                    + idLigneCommande + ErrorCodes.ARTICLE_NOT_FOUND);
+        }
+
+        List <String> errors = ArticleValidator.validate(ArticleDto.fromEntity(article.get()));
+
+        if (!errors.isEmpty()){
+            throw new InvalidEntityException("Article invalide", ErrorCodes.ARTICLE_NOT_VALID, errors);
+        }
+        LigneCommandeClient ligneCommandeClientToSave = ligneCommandeClient.get();
+        ligneCommandeClientToSave.setArticle(article.get());
+        ligneCommandeClientRepository.save(ligneCommandeClientToSave);
+
+        return commandeClientDto;
+    }
+
+    @Override
+    public CommandeClientDto deleteArticle(Integer idCommande, Integer idLigneCommande) {
+        checkIdCommande(idCommande);
+        checkIdLigneCommande(idLigneCommande);
+        CommandeClientDto commandeClientDto = checkEtatCommande(idCommande);
+        // c juste pour verif ligne commande et pour informer le client en cas il est absent;
+        findLigneCommande(idLigneCommande);
+        ligneCommandeClientRepository.deleteById(idCommande);
+        return commandeClientDto;
+    }
+
+    @Override
+    public List<LigneCommandeClientDto> findAllLigneCommandeClientByCommandeClient(Integer idCommande) {
+        return ligneCommandeClientRepository.findAllByCommandeClient(idCommande).stream()
+                .map(LigneCommandeClientDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    private void checkIdCommande(Integer idCommande){
+        if (idCommande == null) {
+            log.error("l'id commande est null");
+            throw new InvalidOperationException("impossible de modifier leta avec un Id commande null",
+                    ErrorCodes.COMMANDE_CLIENT_NOT_MODIFIABLE);
+        }
+    }
+    private void checkIdLigneCommande(Integer idLigneCommande){
+        if (idLigneCommande == null ) {
+            log.error("id ligne commande est null");
+            throw new InvalidOperationException("impossible de modifier letat de la commande avec id ligne commande",
+                    ErrorCodes.COMMANDE_CLIENT_NOT_MODIFIABLE);
+        }
+    }
+    private void checkIdArticle(Integer idArticle){
+        if (idArticle == null ) {
+            log.error("id de nouveau article   est null");
+            throw new InvalidOperationException("impossible de modifier letat de la commande avec un nouveau id ",
+                    ErrorCodes.COMMANDE_CLIENT_NOT_MODIFIABLE);
+        }
+    }
+    private CommandeClientDto checkEtatCommande(Integer idCommande){
+        CommandeClientDto commandeClientDto = findById(idCommande);
+        if(commandeClientDto.isCommandeLivree()){
+            throw  new InvalidOperationException("impossible de modifier letat de la commande lorsque elle est livre",
+                    ErrorCodes.COMMANDE_CLIENT_NOT_MODIFIABLE);
+        }
+        return commandeClientDto;
+    }
+    private Optional<LigneCommandeClient> findLigneCommande(Integer idLigneCommande){
+        Optional<LigneCommandeClient> ligneCommandeClientOptional = ligneCommandeClientRepository.findById(idLigneCommande);
+
+        if(ligneCommandeClientOptional.isEmpty()){
+            throw new InvalidEntityException("Aucun ligne commande a ete trouve dans la base avec l'id "
+                    + idLigneCommande + ErrorCodes.LIGNE_COMMANDE_CLIENT_NOT_FOUND);
+        }
+        return ligneCommandeClientOptional;
     }
 }
 

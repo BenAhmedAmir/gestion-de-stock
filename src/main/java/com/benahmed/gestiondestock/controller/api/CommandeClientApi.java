@@ -1,8 +1,10 @@
 package com.benahmed.gestiondestock.controller.api;
 
 import com.benahmed.gestiondestock.DTO.CommandeClientDto;
+import com.benahmed.gestiondestock.DTO.LigneCommandeClientDto;
 import com.benahmed.gestiondestock.model.EtatCommande;
 
+import com.benahmed.gestiondestock.model.LigneCommandeClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -39,6 +41,28 @@ public interface CommandeClientApi {
                                                          @PathVariable("etatCommande") EtatCommande etatCommande);
 
 
+    @PatchMapping(value = APP_ROOT + "/commandesclient/update/article/{idCommande}/{idLigneCommande}/{idArticle}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Modifier un article d'une commande ",
+            notes = "cette methode permet modifier un article de commande ",
+            response = CommandeClientDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "l'article de commande est modifier")
+    })
+    ResponseEntity<CommandeClientDto> updateArticle(@PathVariable("idCommande") Integer idCommande
+            ,@PathVariable("idLigneCommande") Integer idLigneCommande,@PathVariable("idArticle") Integer idArticle);
+
+    @DeleteMapping(value = APP_ROOT + "/commandesclient/update/article/{idCommande}/{idLigneCommande}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "supprimer une ligne commande  ",
+            notes = "cette methode permet de supprimer ligne commande  par son ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "la ligne commande a ete supprimer")
+    })
+    ResponseEntity<CommandeClientDto> deleteArticle(@PathVariable("idCommande") Integer idCommande
+            ,@PathVariable("idLigneCommande") Integer idLigneCommande);
+
+
     @PatchMapping(value = APP_ROOT + "/commandesclient/update/quantite/{idCommande}/{idLigneCommande}/{quantite}",
             consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Modifier la quantite d'une commande ",
@@ -61,6 +85,17 @@ public interface CommandeClientApi {
     ResponseEntity<CommandeClientDto> updateClient(@PathVariable("idCommande") Integer id,
                                                    @PathVariable("idClient")Integer idClient);
 
+    @GetMapping(value = APP_ROOT + "/commandesclient/lignesCommande/{idCommande}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "rechercher une ligne Commande client par ID",
+            notes = "cette methode permet de trouver une ligne Commande client par " +
+                    "son ID",
+            response = CommandeClientDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "la ligne Commande client a ete trouver dans la base"),
+            @ApiResponse(code = 404, message = "la ligne Commande client n'existe pas dans la base")
+    })
+    ResponseEntity<List<LigneCommandeClientDto>>  findAllLigneCommandeClientByCommandeClient(Integer idCommande);
 
     @GetMapping(value = APP_ROOT + "/commandesclient/{idCommandeClient}",
             produces = MediaType.APPLICATION_JSON_VALUE)
