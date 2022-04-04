@@ -1,5 +1,6 @@
 package com.benahmed.gestiondestock.service;
 
+import com.benahmed.gestiondestock.DTO.UpdateUserPasswordDto;
 import com.benahmed.gestiondestock.DTO.UtilisateurDto;
 import com.benahmed.gestiondestock.model.Utilisateur;
 
@@ -11,4 +12,5 @@ public interface UtilisateurService {
     List<UtilisateurDto> findAll();
     void delete(Integer id);
     UtilisateurDto findUtilisateurByEmail(String email);
+    UtilisateurDto updatePassword(UpdateUserPasswordDto userPasswordDto);
 }

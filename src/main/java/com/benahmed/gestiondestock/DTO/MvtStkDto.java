@@ -1,6 +1,8 @@
 package com.benahmed.gestiondestock.DTO;
 
 import com.benahmed.gestiondestock.model.MvtStk;
+import com.benahmed.gestiondestock.model.SourceMvtStk;
+import com.benahmed.gestiondestock.model.TypeMvt;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,6 +16,9 @@ public class MvtStkDto {
     private Instant dateMvt;
     private BigDecimal quantite;
     private ArticleDto article;
+    private TypeMvt typeMvt;
+    private SourceMvtStk sourceMvtStk;
+    private Integer idEntreprise;
     public static MvtStkDto fromEntity(MvtStk mvtStk){
         if(mvtStk == null){
             // TODO throw an exception
@@ -24,6 +29,9 @@ public class MvtStkDto {
                 .dateMvt(mvtStk.getDateMvt())
                 .quantite(mvtStk.getQuantite())
                 .article(ArticleDto.fromEntity(mvtStk.getArticle()))
+                .typeMvt(mvtStk.getTypeMvt())
+                .sourceMvtStk(mvtStk.getSourceMvtStk())
+                .idEntreprise(mvtStk.getIdEntreprise())
                 .build();
     }
     public static MvtStk toEntity(MvtStkDto mvtStkDto){
@@ -36,6 +44,9 @@ public class MvtStkDto {
         mvtStk.setDateMvt(mvtStkDto.getDateMvt());
         mvtStk.setQuantite(mvtStkDto.getQuantite());
         mvtStk.setArticle(ArticleDto.toEntity(mvtStkDto.getArticle()));
+        mvtStk.setTypeMvt(mvtStk.getTypeMvt());
+        mvtStk.setSourceMvtStk(mvtStkDto.getSourceMvtStk());
+        mvtStk.setIdEntreprise(mvtStkDto.getIdEntreprise());
         return mvtStk;
     }
 }

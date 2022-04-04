@@ -23,4 +23,8 @@ public class MvtStk extends AbstractEntity{
     private BigDecimal quantite;
     @Column(name = "identreprise")
     private Integer idEntreprise;
+    @Column(name = "typeMvt")
+    private TypeMvt typeMvt;
+    @Column(name = "sourceMvt")
+    private SourceMvtStk sourceMvtStk;
 }

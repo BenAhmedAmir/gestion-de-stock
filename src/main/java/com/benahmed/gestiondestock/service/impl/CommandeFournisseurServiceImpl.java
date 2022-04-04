@@ -1,9 +1,6 @@
 package com.benahmed.gestiondestock.service.impl;
 
-import com.benahmed.gestiondestock.DTO.CommandeClientDto;
-import com.benahmed.gestiondestock.DTO.CommandeFournisseurDto;
-import com.benahmed.gestiondestock.DTO.FournisseurDto;
-import com.benahmed.gestiondestock.DTO.LigneCommandeFournisseurDto;
+import com.benahmed.gestiondestock.DTO.*;
 import com.benahmed.gestiondestock.exception.EntityNotFoundException;
 import com.benahmed.gestiondestock.exception.ErrorCodes;
 import com.benahmed.gestiondestock.exception.InvalidEntityException;
@@ -14,6 +11,7 @@ import com.benahmed.gestiondestock.repository.CommandeFournisseurRepository;
 import com.benahmed.gestiondestock.repository.FournisseurRepository;
 import com.benahmed.gestiondestock.repository.LigneCommandeFournisseurRepository;
 import com.benahmed.gestiondestock.service.CommandeFournisseurService;
+import com.benahmed.gestiondestock.service.MvtStockService;
 import com.benahmed.gestiondestock.validator.CmandeFrValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,16 +33,18 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
     private final ArticleRepository articleRepository;
     private final LigneCommandeFournisseurRepository ligneCommandeFournisseurRepository;
     private final FournisseurRepository fournisseurRepository;
+    private final MvtStockService mvtStockService;
 
     @Autowired
     public CommandeFournisseurServiceImpl(CommandeFournisseurRepository commandeFournisseurRepository,
                                           ArticleRepository articleRepository,
                                           LigneCommandeFournisseurRepository ligneCommandeFournisseurRepository,
-                                          FournisseurRepository fournisseurRepository) {
+                                          FournisseurRepository fournisseurRepository, MvtStockService mvtStockService) {
         this.commandeFournisseurRepository = commandeFournisseurRepository;
         this.articleRepository = articleRepository;
         this.ligneCommandeFournisseurRepository = ligneCommandeFournisseurRepository;
         this.fournisseurRepository = fournisseurRepository;
+        this.mvtStockService = mvtStockService;
     }
 
 
@@ -132,6 +133,11 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
             log.error("l'id est null");
             return;
         }
+        List<LigneCommandeFournisseur> ligneCommandeFournisseurs = ligneCommandeFournisseurRepository.findAllByCommandeFournisseur(id);
+        if(!ligneCommandeFournisseurs.isEmpty()){
+            throw new InvalidOperationException("impossible de supprimer une commande fournisseur deja utilise",
+                    ErrorCodes.COMMANDE_FOURNISSEUR_ALREADY_IN_USE);
+        }
          commandeFournisseurRepository.deleteById(id);
     }
 
@@ -145,9 +151,12 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
         }
         CommandeFournisseurDto commandeFournisseurDto = checkEtatCommande(idCommande);
         commandeFournisseurDto.setEtatCommande(etatCommande);
-        return CommandeFournisseurDto.fromEntity(commandeFournisseurRepository.save(
-                CommandeFournisseurDto.toEntity(commandeFournisseurDto)
-        ));
+        CommandeFournisseur savedCommande = commandeFournisseurRepository.save(CommandeFournisseurDto.toEntity(
+                commandeFournisseurDto));
+        if(commandeFournisseurDto.isCommandLivree()){
+            updateMvtStk(idCommande);
+        }
+        return CommandeFournisseurDto.fromEntity(savedCommande);
     }
 
     @Override
@@ -185,6 +194,23 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
         return CommandeFournisseurDto.fromEntity(commandeFournisseurRepository.save(
                 CommandeFournisseurDto.toEntity(commandeFournisseurDto)
         ));
+    }
+
+    @Override
+    public CommandeFournisseurDto deleteArticle(Integer idCommande, Integer idLigneCommande) {
+        checkIdCommande(idCommande);
+        checkIdLigneCommande(idLigneCommande);
+        CommandeFournisseurDto commandeFournisseurDto = checkEtatCommande(idCommande);
+        findLigneCommande(idLigneCommande);
+        ligneCommandeFournisseurRepository.deleteById(idCommande);
+        return commandeFournisseurDto;
+    }
+
+    @Override
+    public List<LigneCommandeFournisseurDto> findAllLigneCommandeFournisseurByCommandeFournisseur(Integer idCommande) {
+        return ligneCommandeFournisseurRepository.findAllByCommandeFournisseur(idCommande).stream()
+                .map(LigneCommandeFournisseurDto::fromEntity)
+                .collect(Collectors.toList());
     }
 
     private void checkIdCommande(Integer idCommande){
@@ -225,6 +251,20 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
                     + idLigneCommande + ErrorCodes.LIGNE_COMMANDE_FOURNISSEUR_NOT_FOUND);
         }
         return optionalLigneCommandeFournisseur;
+    }
+    private void updateMvtStk(Integer idCommande){
+        List<LigneCommandeFournisseur> ligneCommandeFournisseurs = ligneCommandeFournisseurRepository.findAllByCommandeFournisseur(idCommande);
+        ligneCommandeFournisseurs.forEach(ligne -> {
+            MvtStkDto mvtStkDto = MvtStkDto.builder()
+                    .article(ArticleDto.fromEntity(ligne.getArticle()))
+                    .dateMvt(Instant.now())
+                    .typeMvt(TypeMvt.ENTREE)
+                    .sourceMvtStk(SourceMvtStk.COMMANDE_FOURNISSEUR)
+                    .quantite(ligne.getQuantite())
+                    .idEntreprise(ligne.getIdEntreprise())
+                    .build();
+            mvtStockService.entreeStock(mvtStkDto);
+        });
     }
 }
 

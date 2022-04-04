@@ -1,6 +1,7 @@
 package com.benahmed.gestiondestock.controller;
 
 import com.benahmed.gestiondestock.DTO.CommandeFournisseurDto;
+import com.benahmed.gestiondestock.DTO.LigneCommandeFournisseurDto;
 import com.benahmed.gestiondestock.controller.api.CommandeFournisseurApi;
 import com.benahmed.gestiondestock.model.EtatCommande;
 import com.benahmed.gestiondestock.service.CommandeFournisseurService;
@@ -58,5 +59,15 @@ public class CommandeFournisseurController implements CommandeFournisseurApi {
     public ResponseEntity<?> delete(Integer id) {
         commandeFournisseurService.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<CommandeFournisseurDto> deleteArticle(Integer idCommande, Integer idLigneCommande) {
+        return ResponseEntity.ok(commandeFournisseurService.deleteArticle(idCommande,idLigneCommande));
+    }
+
+    @Override
+    public ResponseEntity<List<LigneCommandeFournisseurDto>> findAllLigneCommandeFournisseurByCommandeFournisseur(Integer idCommande) {
+        return ResponseEntity.ok(commandeFournisseurService.findAllLigneCommandeFournisseurByCommandeFournisseur(idCommande));
     }
 }

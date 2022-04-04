@@ -2,6 +2,8 @@ package com.benahmed.gestiondestock.controller.api;
 
 import com.benahmed.gestiondestock.DTO.CommandeClientDto;
 import com.benahmed.gestiondestock.DTO.CommandeFournisseurDto;
+import com.benahmed.gestiondestock.DTO.LigneCommandeClientDto;
+import com.benahmed.gestiondestock.DTO.LigneCommandeFournisseurDto;
 import com.benahmed.gestiondestock.model.EtatCommande;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -87,11 +89,32 @@ public interface CommandeFournisseurApi {
             @ApiResponse(code = 200, message = "la liste des commandes fournisseur ou liste vide")
     })
     ResponseEntity<List<CommandeFournisseurDto>> findAll();
-    @DeleteMapping(value = APP_ROOT + "/commandesclient/{idCommandefournisseur}")
+    @DeleteMapping(value = APP_ROOT + "/commandesfournisseur/{idCommandefournisseur}")
     @ApiOperation(value = "supprimer une commande fournisseur ",
             notes = "cette methode permet de supprimer une commande fournisseur par son ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "la commande fournisseur a ete supprimer")
     })
     ResponseEntity<?> delete(@PathVariable("idCommandefournisseur") Integer id);
+
+    @DeleteMapping(value = APP_ROOT + "/commandesfournisseur/{idCommande}/{idLigneCommande}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "supprimer une ligne commande  ",
+            notes = "cette methode permet de supprimer ligne commande  par son ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "la ligne commande a ete supprimer")
+    })
+    ResponseEntity<CommandeFournisseurDto> deleteArticle(@PathVariable("idCommande") Integer idCommande
+            ,@PathVariable("idLigneCommande") Integer idLigneCommande);
+
+    @GetMapping(value = APP_ROOT + "/commandesfournisseur/lignesCommande/{idCommande}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "rechercher une ligne Commande fournisseur par ID",
+            notes = "cette methode permet de trouver une ligne Commande fournisseur par son ID",
+            response = CommandeFournisseurDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "la ligne Commande fournisseur a ete trouver dans la base"),
+            @ApiResponse(code = 404, message = "la ligne Commande fournisseur n'existe pas dans la base")
+    })
+    ResponseEntity<List<LigneCommandeFournisseurDto>> findAllLigneCommandeFournisseurByCommandeFournisseur(Integer idCommande);
 }
