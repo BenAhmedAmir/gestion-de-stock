@@ -10,9 +10,10 @@ import { PageInscriptionComponent } from './pages/page-inscription/page-inscript
 import { PageDashboardComponent } from './pages/page-dashboard/page-dashboard.component';
 import { PageStatistiquesComponent } from './pages/page-statistiques/page-statistiques.component';
 import {MenuComponent} from "./composants/menu/menu.component";
-import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxBootstrapIconsModule,allIcons } from 'ngx-bootstrap-icons';
+import { HeaderComponent } from './composants/header/header.component';
+import { PageArticleComponent } from './pages/articles/page-article/page-article.component';
+import { DetailArticleComponent } from './composants/detail-article/detail-article.component';
 
 @NgModule({
   declarations: [
@@ -21,16 +22,17 @@ import { NgxBootstrapIconsModule,allIcons } from 'ngx-bootstrap-icons';
     PageInscriptionComponent,
     PageDashboardComponent,
     PageStatistiquesComponent,
-    MenuComponent
+    MenuComponent,
+    HeaderComponent,
+    PageArticleComponent,
+    DetailArticleComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     FontAwesomeModule,
-    AccordionModule.forRoot(),
     BrowserAnimationsModule,
-    NgxBootstrapIconsModule.pick(allIcons),
   ],
   providers: [],
   bootstrap: [AppComponent]

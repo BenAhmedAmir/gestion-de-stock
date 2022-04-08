@@ -7,7 +7,6 @@ import {Router} from "@angular/router";
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-  expandedIndex = 0;
   public MenuPropreties: Array<Menu> = [
     {
       id: '1',
@@ -26,7 +25,7 @@ export class MenuComponent implements OnInit {
           id: '12',
           title: 'Statistiques',
           icon: 'fas fa-chart-bar',
-          url: '',
+          url: 'statistiques',
 
         }
       ]
@@ -41,7 +40,7 @@ export class MenuComponent implements OnInit {
           id: '21',
           title: 'Article',
           icon: 'fas fa-box',
-          url: '',
+          url: 'articles',
         },
         {
           id: '22',
