@@ -18,6 +18,9 @@ body{
 .border-right{
   border-right: 2px solid #9ca1a6;
 }
+.border-right-accordion{
+  border-right: 2px solid #9ca1a6;
+}
 .row-div {
   display: flex;
   justify-content: initial;
@@ -28,8 +31,16 @@ body{
   border: solid #9ca1a6;
   border-radius: 5px;
 }
+.custom-accordion{
+}
 .color-blue{
   color: #2e63e4;
+}
+.color-red{
+  color: #ee0b0b;
+}
+.color-warning{
+  color:#ee8700
 }
 /* Importing Bootstrap SCSS file. */
 

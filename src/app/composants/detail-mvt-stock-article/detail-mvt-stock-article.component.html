@@ -1,0 +1,72 @@
+<div class="row custom-border">
+    <div class="col-md-1 border-right p-1 text-center">
+      <img src="assets/product.png" width="100px" height="100px">
+    </div>
+    <!-- details article -->
+    <div class="col-md-5 text-center border-right ">
+      <div class="row-div mt-2">
+        <div><i class="fas fa-info-circle color-blue pe-2"></i></div>
+        <div>Code article</div>
+      </div>
+      <div class="row-div">
+        <div><i class="fas fa-info-circle color-blue pe-2"></i></div>
+        <div>Designation</div>
+      </div>
+      <div class="row-div">
+        <div><i class="fas fa-circle-dollar-to-slot color-blue pe-2"></i></div>
+        <div>Prix HT</div>
+      </div>
+      <div class="row-div">
+        <div><i class="fas fa-circle-dollar-to-slot color-blue pe-2"></i></div>
+        <div>Prix TTC</div>
+      </div>
+    </div>
+
+    <!-- details categories -->
+
+    <div class="col-md-4 border-right">
+      <div class="row">
+        <div class="col-md-10">
+          <div class="row mt-4">
+            <div class="col-md-12 text-center"><h4><i class="fas fa-box-archive"></i> Details de stock</h4></div>
+            <div class="col-md-12 text-center"><h4>123</h4></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2  mb-2 mt-3 ">
+      <div class="row">
+        <div class="col-md-10">
+          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-box-open"></i>Correction de stock</button>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Correction de stock</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Quantite:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="mb-3">
+           <select class="form-control">
+             <option>Correction positive</option>
+             <option>Correction negative</option>
+           </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-ban"></i> Annuler</button>
+        <button type="button" class="btn btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>
