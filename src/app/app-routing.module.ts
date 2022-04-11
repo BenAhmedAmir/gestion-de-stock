@@ -7,8 +7,12 @@ import {PageStatistiquesComponent} from "./pages/page-statistiques/page-statisti
 import {PageArticleComponent} from "./pages/articles/page-article/page-article.component";
 import {NouvelArticleComponent} from "./pages/articles/nouvel-article/nouvel-article.component";
 import {PageMvtstockComponent} from "./pages/mvtstock/page-mvtstock/page-mvtstock.component";
-import {PageClientComponent} from "./pages/page-client/page-client.component";
-import {PageFournisseurComponent} from "./pages/page-fournisseur/page-fournisseur.component";
+import {PageClientComponent} from "./pages/clients/page-client/page-client.component";
+import {PageFournisseurComponent} from "./pages/fournisseurs/page-fournisseur/page-fournisseur.component";
+import {NouveauClientComponent} from "./pages/clients/nouveau-client/nouveau-client.component";
+import {NouveauFournisseursComponent} from "./pages/fournisseurs/nouveau-fournisseurs/nouveau-fournisseurs.component";
+import {PageCmdCltComponent} from "./pages/page-cmd-clt/page-cmd-clt.component";
+import {PageCmdFrnsComponent} from "./pages/page-cmd-frns/page-cmd-frns.component";
 
 const routes: Routes = [
   {
@@ -43,6 +47,22 @@ const routes: Routes = [
       {
         path:'fournisseur',
         component:PageFournisseurComponent
+      },
+      {
+        path:'nouveauclient',
+        component:NouveauClientComponent
+      },
+      {
+        path:'nouveaufournisseur',
+        component:NouveauFournisseursComponent
+      },
+      {
+        path:'commandeclient',
+        component:PageCmdCltComponent
+      },
+      {
+        path:'commandefournisseur',
+        component:PageCmdFrnsComponent
       }
     ]
   }
