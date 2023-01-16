@@ -9,8 +9,11 @@ import java.util.List;
 public class CategoryValidator {
     public static List<String> validate(CategoryDto categoryDto) {
         List<String> errors = new ArrayList<>();
-        if (categoryDto == null || StringUtils.hasLength(categoryDto.getCategoryCode())) {
-            errors.add("Veuillez renseigner le code de la catégorie");
+        if (categoryDto == null) {
+            errors.add("Veuillez renseigner les champs de catégorie");
+        }
+        if (!StringUtils.hasLength(categoryDto.getCategoryCode())){
+            errors.add("Veuillez renseigner le code de categorie");
         }
         return errors;
     }

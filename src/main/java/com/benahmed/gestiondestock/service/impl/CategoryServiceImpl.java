@@ -1,11 +1,12 @@
 package com.benahmed.gestiondestock.service.impl;
 
 import com.benahmed.gestiondestock.DTO.CategoryDto;
-import com.benahmed.gestiondestock.DTO.ClientDto;
 import com.benahmed.gestiondestock.exception.EntityNotFoundException;
 import com.benahmed.gestiondestock.exception.ErrorCodes;
 import com.benahmed.gestiondestock.exception.InvalidEntityException;
-import com.benahmed.gestiondestock.model.Category;
+import com.benahmed.gestiondestock.exception.InvalidOperationException;
+import com.benahmed.gestiondestock.model.Article;
+import com.benahmed.gestiondestock.repository.ArticleRepository;
 import com.benahmed.gestiondestock.repository.CategoryRepository;
 import com.benahmed.gestiondestock.service.CategoryService;
 import com.benahmed.gestiondestock.validator.CategoryValidator;
@@ -21,10 +22,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+    private final ArticleRepository articleRepository;
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ArticleRepository articleRepository) {
         this.categoryRepository = categoryRepository;
+        this.articleRepository = articleRepository;
     }
 
     @Override
@@ -48,7 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findById(id)
                 .map(CategoryDto::fromEntity)
                 .orElseThrow(()-> new EntityNotFoundException(
-                        "Aucun category est trouvé avec l'id = " + id + "dans la base",
+                        "Aucun category est trouvé avec l'id = " + id + " dans la base",
                         ErrorCodes.CATEGORY_NOT_FOUND
                 ));
     }
@@ -81,6 +84,11 @@ public class CategoryServiceImpl implements CategoryService {
         if (id ==null){
             log.error("l'id est null");
             return;
+        }
+        List<Article> articles = articleRepository.findAllByCategoryId(id);
+        if(!articles.isEmpty()){
+            throw new InvalidOperationException("impossible de supprimer une category deja utilise par un article",
+                    ErrorCodes.CATEGORY_ALREADY_IN_USE);
         }
         categoryRepository.deleteById(id);
     }

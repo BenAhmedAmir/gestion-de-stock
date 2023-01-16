@@ -1,13 +1,19 @@
 package com.benahmed.gestiondestock.handlers;
 
 import com.benahmed.gestiondestock.exception.EntityNotFoundException;
+import com.benahmed.gestiondestock.exception.ErrorCodes;
 import com.benahmed.gestiondestock.exception.InvalidEntityException;
+import com.benahmed.gestiondestock.exception.InvalidOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.Collections;
+
 // grace a cette annotation jai pas besoin dajouter l'annotation response body a chaque method
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -23,6 +29,28 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(InvalidEntityException.class)
     public ResponseEntity<ErrorDto> invalidException(InvalidEntityException exception, WebRequest webRequest){
+        final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        final ErrorDto errorDto =  ErrorDto.builder()
+                .code(exception.getErrorCode())
+                .httpCode(badRequest.value())
+                .msg(exception.getMessage())
+                .errors(exception.getErrors())
+                .build();
+        return new ResponseEntity<>(errorDto, badRequest);
+    }
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorDto> handleException(BadCredentialsException exceptionn, WebRequest webRequest){
+        final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        final ErrorDto error = ErrorDto.builder()
+                .code(ErrorCodes.BAD_CREDENTIALS)
+                .httpCode(badRequest.value())
+                .msg(exceptionn.getMessage())
+                .errors(Collections.singletonList("Login et ou mot de passe sont incorrect"))
+                .build();
+        return new ResponseEntity<>(error , badRequest);
+    }
+    @ExceptionHandler(InvalidOperationException.class)
+    public ResponseEntity<ErrorDto> invalidOperationException(InvalidEntityException exception, WebRequest webRequest){
         final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
         final ErrorDto errorDto =  ErrorDto.builder()
                 .code(exception.getErrorCode())

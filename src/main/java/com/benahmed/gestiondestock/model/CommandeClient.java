@@ -27,4 +27,6 @@ public class CommandeClient extends AbstractEntity{
     private List<LigneCommandeClient> ligneCommandeClients;
     @Column(name = "identreprise")
     private Integer idEntreprise;
+
+    private EtatCommande etatCommande;
 }

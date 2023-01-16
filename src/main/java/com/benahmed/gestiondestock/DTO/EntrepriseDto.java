@@ -36,10 +36,6 @@ public class EntrepriseDto {
                 .email(entreprise.getEmail())
                 .phoneNumber(entreprise.getPhoneNumber())
                 .url(entreprise.getUrl())
-                .utilisateurs(entreprise.getUtilisateurs() != null ?
-                        entreprise.getUtilisateurs().stream()
-                                .map(UtilisateurDto::fromEntity).
-                                collect(Collectors.toList()) : null)
                 .build();
     }
     public static Entreprise toEntity(EntrepriseDto entrepriseDto){

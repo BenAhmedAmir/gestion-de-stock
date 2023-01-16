@@ -13,7 +13,7 @@ public class CategoryDto {
     private Integer id;
 
     private String categoryCode;
-
+    private Integer idEntreprise;
     private String designation;
     private List<ArticleDto> articles;
     public static CategoryDto fromEntity(Category category){
@@ -26,10 +26,7 @@ public class CategoryDto {
                 .id(category.getId())
                 .categoryCode(category.getCategoryCode())
                 .designation(category.getDesignation())
-                .articles(category.getArticles() != null ?
-                        category.getArticles().stream()
-                                .map(ArticleDto::fromEntity)
-                                .collect(Collectors.toList()) : null)
+                .idEntreprise(category.getIdEntreprise())
                 //la methode build va construire un obj de type categoryDTO
                 .build();
     }
@@ -44,6 +41,7 @@ public class CategoryDto {
         category.setId(categoryDto.getId());
         category.setCategoryCode(categoryDto.getCategoryCode());
         category.setDesignation(categoryDto.getDesignation());
+        category.setIdEntreprise(categoryDto.getIdEntreprise());
         category.setArticles(categoryDto.getArticles() != null ?
                 categoryDto.getArticles().stream()
                 .map(ArticleDto::toEntity)

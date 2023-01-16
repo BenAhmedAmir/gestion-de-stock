@@ -1,12 +1,17 @@
 package com.benahmed.gestiondestock.controller;
 
 import com.benahmed.gestiondestock.DTO.CommandeClientDto;
+import com.benahmed.gestiondestock.DTO.LigneCommandeClientDto;
 import com.benahmed.gestiondestock.controller.api.CommandeClientApi;
+import com.benahmed.gestiondestock.model.EtatCommande;
 import com.benahmed.gestiondestock.service.CommandeClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
-
+@RestController
 public class CommandeClientController implements CommandeClientApi {
 
     CommandeClientService commandeClientService;
@@ -16,27 +21,58 @@ public class CommandeClientController implements CommandeClientApi {
     }
 
     @Override
-    public CommandeClientDto save(CommandeClientDto dto) {
-        return commandeClientService.save(dto);
+    public ResponseEntity<CommandeClientDto> save(CommandeClientDto dto) {
+        return ResponseEntity.ok(commandeClientService.save(dto));
     }
 
     @Override
-    public CommandeClientDto findById(Integer id) {
-        return commandeClientService.findById(id);
+    public ResponseEntity<CommandeClientDto> updateEtatCommande(Integer id, EtatCommande etatCommande) {
+        return ResponseEntity.ok(commandeClientService.updateEtatCommande(id,etatCommande));
     }
 
     @Override
-    public CommandeClientDto findByCode(String code) {
-        return commandeClientService.findByCode(code);
+    public ResponseEntity<CommandeClientDto> updateArticle(Integer idCommande, Integer idLigneCommande, Integer idArticle) {
+        return ResponseEntity.ok(commandeClientService.updateArticle(idCommande,idLigneCommande,idArticle));
     }
 
     @Override
-    public List<CommandeClientDto> findAll() {
-        return commandeClientService.findAll();
+    public ResponseEntity<CommandeClientDto> deleteArticle(Integer idCommande, Integer idLigneCommande) {
+        return ResponseEntity.ok(commandeClientService.deleteArticle(idCommande,idLigneCommande));
     }
 
     @Override
-    public void delete(Integer id) {
+    public ResponseEntity<CommandeClientDto> updateQuantite(Integer id, Integer idLigneCommande, BigDecimal quantite) {
+        return ResponseEntity.ok(commandeClientService.updateQuantite(id,idLigneCommande,quantite));
+    }
+
+    @Override
+    public ResponseEntity<CommandeClientDto> updateClient(Integer id, Integer idClient) {
+        return ResponseEntity.ok(commandeClientService.updateClient(id,idClient));
+    }
+
+    @Override
+    public ResponseEntity<List<LigneCommandeClientDto>> findAllLigneCommandeClientByCommandeClient(Integer idCommande) {
+        return ResponseEntity.ok(commandeClientService.findAllLigneCommandeClientByCommandeClient(idCommande));
+    }
+
+    @Override
+    public ResponseEntity<CommandeClientDto> findById(Integer id) {
+        return ResponseEntity.ok(commandeClientService.findById(id));
+    }
+
+    @Override
+    public ResponseEntity<CommandeClientDto> findByCode(String code) {
+        return ResponseEntity.ok(commandeClientService.findByCode(code));
+    }
+
+    @Override
+    public ResponseEntity<List<CommandeClientDto>> findAll() {
+        return ResponseEntity.ok(commandeClientService.findAll());
+    }
+
+    @Override
+    public ResponseEntity<?> delete(Integer id) {
         commandeClientService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }
